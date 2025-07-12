@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 
 const links = [
   { href: "/", label: "Home" },
@@ -25,8 +26,10 @@ export default function Navbar() {
             aria-label="Show profile picture"
             style={{ background: 'none', border: 'none', padding: 0 }}
           >
-            <img
+            <Image
               src="/profile-placeholder.jpg"
+              width={48}
+              height={48}
               className="w-12 h-12 rounded-full object-cover shadow-md bg-gray-700 transition-transform duration-200 hover:scale-105"
               alt="Profile picture"
             />
@@ -38,8 +41,10 @@ export default function Navbar() {
               aria-modal="true"
               role="dialog"
             >
-              <img
+              <Image
                 src="/profile-placeholder.jpg"
+                width={256}
+                height={256}
                 className="w-64 h-64 rounded-full object-cover shadow-2xl border-4 border-gray-700"
                 alt="Profile picture enlarged"
                 onClick={e => e.stopPropagation()}

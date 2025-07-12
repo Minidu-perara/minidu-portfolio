@@ -1,6 +1,5 @@
 "use client";
 import Navbar from "../../components/Navbar";
-import { GetServerSidePropsContext } from "next";
 
 type PageProps = { params: { slug: string } };
 

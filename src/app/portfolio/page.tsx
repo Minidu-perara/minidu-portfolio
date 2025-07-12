@@ -2,7 +2,6 @@
 import { useRef, useEffect, useState, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import { useTheme } from "next-themes";
 
 const sections = [
   { id: "intro", label: "Introduction" },
@@ -40,22 +39,13 @@ const sidebarGroups: SidebarGroup[] = [
 interface SidebarProps {
   active: string;
   setActive: Dispatch<SetStateAction<string>>;
-  sections: { id: string; label: string }[];
 }
 
 type ExpandedState = { [key: string]: boolean };
 
-// Map section id to emoji/icon
-const sectionIcons: Record<string, string> = {
-  intro: "👋",
-  introduction: "👋",
-  education: "🎓",
-  work: "💼",
-  projects: "🛠️",
-  skills: "🧰",
-};
 
-function Sidebar({ active, setActive, sections }: SidebarProps) {
+
+function Sidebar({ active, setActive }: SidebarProps) {
   const [expanded, setExpanded] = useState<ExpandedState>({ Portfolio: true });
   return (
     <nav className="hidden md:flex fixed top-20 left-0 h-[calc(100vh-5rem)] flex-col gap-4 w-64 px-4 py-8 border-r border-white/10 backdrop-blur-md bg-black/60 rounded-tr-2xl rounded-br-2xl shadow-2xl z-30 transition-all">
@@ -96,7 +86,6 @@ function Sidebar({ active, setActive, sections }: SidebarProps) {
 export default function PortfolioPage() {
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [active, setActive] = useState(sections[0].id);
-  const [showProfileModal, setShowProfileModal] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
 
   useEffect(() => {
@@ -115,7 +104,7 @@ export default function PortfolioPage() {
     <div className="min-h-screen bg-black text-white">
       <Navbar />
       <div className="w-full min-h-screen relative">
-        <Sidebar active={active} setActive={setActive} sections={sections} />
+        <Sidebar active={active} setActive={setActive} />
         <main className="ml-64 flex flex-col gap-24 px-4 md:px-16 py-16 md:py-24 min-h-screen bg-black/80 border-l border-white/10 z-10" style={{ position: 'relative' }}>
             <div id="intro" ref={el => { sectionRefs.current[0] = el; }} className="w-full max-w-4xl ml-0">
               <div className="flex flex-row items-center gap-8 mb-6 w-full">
@@ -132,7 +121,7 @@ export default function PortfolioPage() {
                   <h2 className="text-2xl font-bold text-indigo-200 mb-1 text-left">Welcome to my portfolio!</h2>
                   <p className="text-2xl md:text-3xl font-bold text-white mb-2 text-left">Full-stack developer, tech enthusiast, and lifelong learner.</p>
                   <p className="text-lg text-gray-300 text-left">
-                    Here you'll find my education, work experience, projects, and skills.
+                    Here you&apos;ll find my education, work experience, projects, and skills.
                   </p>
                 </div>
               </div>

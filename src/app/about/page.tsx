@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "../components/Navbar";
+import Image from "next/image";
 
 export default function AboutPage() {
   return (
@@ -27,9 +28,11 @@ export default function AboutPage() {
         </div>
         {/* SysEnact Core Banking Internship Section */}
         <div className="bg-white/5 rounded-xl p-0 shadow-lg border border-white/10 mt-8 flex flex-col items-center overflow-hidden">
-          <img
+          <Image
             src="/sysenact-group-placeholder.jpg"
             alt="SysEnact staff and coworkers group photo placeholder"
+            width={800}
+            height={600}
             className="w-full max-w-2xl rounded-t-xl shadow-none border-b border-gray-700 object-cover mb-0"
           />
           <div className="w-full p-6 flex flex-col items-center">
