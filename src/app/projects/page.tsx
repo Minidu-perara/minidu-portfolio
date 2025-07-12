@@ -1,6 +1,6 @@
 "use client";
-import Navbar from "./components/Navbar";
-import { motion } from "framer-motion";
+import Navbar from "../components/Navbar";
+import PageTransitionWrapper from "../components/PageTransitionWrapper";
 
 const projects = [
   {
@@ -53,52 +53,24 @@ const projects = [
   }
 ];
 
-const skills = [
-  {
-    category: "Languages",
-    items: ["JavaScript", "Java", "Python", "C++", "Kotlin", "InfoBasic"]
-  },
-  {
-    category: "Web/Backend",
-    items: ["MERN Stack", "Spring Boot", "REST APIs", "HTML/CSS"]
-  },
-  {
-    category: "Databases",
-    items: ["MongoDB", "Temenos internal DB", "SQL"]
-  },
-  {
-    category: "Banking Systems",
-    items: ["Temenos (Enquiry, Version, Java routines)"]
-  },
-  {
-    category: "IoT/ML",
-    items: ["Arduino", "Embedded Systems", "ML (scikit-learn)"]
-  }
-];
-
-export default function Home() {
+export default function ProjectsPage() {
   return (
-    <main className="min-h-screen flex flex-col bg-black text-white px-2 md:px-4">
+    <main className="min-h-screen bg-black text-white flex flex-col items-center px-2 md:px-4">
       <Navbar />
-      <div className="flex flex-1 items-center justify-center z-10 relative">
-        <section className="w-full max-w-2xl flex flex-col items-center justify-center flex-grow gap-5 md:gap-5 animate-fadeIn mt-20 md:mt-32">
-          <motion.h1
-            className="text-5xl md:text-8xl font-extrabold text-center tracking-tight drop-shadow-lg cursor-pointer transition-colors duration-300"
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
-            whileHover={{ color: '#a5b4fc', scale: 1.04, fontWeight: 900 }}
-          >
-            Welcome
-          </motion.h1>
-          <p className="text-lg md:text-2xl text-center text-gray-300 font-light animate-fadeIn animate-slideInUp delay-100">
-            Building beautiful web experiences.
-          </p>
-          <p className="text-sm md:text-base text-center text-gray-500 font-light animate-fadeIn animate-slideInUp delay-200">
-            By Minidu Perera
-          </p>
-        </section>
-      </div>
+      <section className="w-full max-w-3xl mt-16 flex flex-col gap-10 animate-fadeIn">
+        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-8">Projects</h1>
+        {projects.map((proj, idx) => (
+          <div key={idx} className="bg-white/5 rounded-xl p-6 shadow-lg border border-white/10">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 text-indigo-200">{proj.title}</h2>
+            <div className="mb-2 text-sm text-gray-400">{proj.role} &mdash; <span className="font-mono text-pink-200">{proj.stack}</span></div>
+            <ul className="list-disc list-inside text-gray-200 space-y-1">
+              {proj.description.map((line, i) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
     </main>
   );
-}
+} 
