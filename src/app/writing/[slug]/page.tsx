@@ -1,8 +1,6 @@
 "use client";
 import Navbar from "../../components/Navbar";
 
-type PageProps = { params: { slug: string } };
-
 const examplePosts = {
   "my-first-post": {
     title: "My First Post",
@@ -16,7 +14,7 @@ const examplePosts = {
   }
 };
 
-export default function BlogPostPage({ params }: PageProps) {
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = params && typeof params.slug === 'string' && examplePosts[params.slug as keyof typeof examplePosts]
     ? examplePosts[params.slug as keyof typeof examplePosts]
     : {

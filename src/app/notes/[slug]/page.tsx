@@ -1,8 +1,6 @@
 "use client";
 import Navbar from "../../components/Navbar";
 
-type PageProps = { params: { slug: string } };
-
 const exampleNotes = {
   "quick-tip-mern": {
     title: "Quick Tip: MERN Stack Setup",
@@ -16,7 +14,7 @@ const exampleNotes = {
   }
 };
 
-export default function NoteDetailPage({ params }: PageProps) {
+export default function NoteDetailPage({ params }: { params: { slug: string } }) {
   const note = params && typeof params.slug === 'string' && exampleNotes[params.slug as keyof typeof exampleNotes]
     ? exampleNotes[params.slug as keyof typeof exampleNotes]
     : {
