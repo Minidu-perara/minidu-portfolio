@@ -2,6 +2,7 @@
 import { useRef, useEffect, useState, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
+import ResumeDownload from "../components/ResumeDownload";
 
 const sections = [
   { id: "intro", label: "Introduction" },
@@ -124,6 +125,11 @@ export default function PortfolioPage() {
                     Here you&apos;ll find my education, work experience, projects, and skills.
                   </p>
                 </div>
+              </div>
+              
+              {/* Resume Download Section */}
+              <div className="mt-8">
+                <ResumeDownload />
               </div>
             </div>
           <div id="education" ref={el => { sectionRefs.current[1] = el; }} className="w-full max-w-4xl ml-0">
