@@ -7,7 +7,7 @@ import Image from "next/image";
 const links = [
   { href: "/", label: "Home" },
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/blog", label: "Blog" },
+  { href: "https://minidu.substack.com/", label: "Substack", external: true },
 ];
 
 export default function Navbar() {
@@ -19,6 +19,8 @@ export default function Navbar() {
           <Link
             key={link.href}
             href={link.href}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener noreferrer" : undefined}
             className={`
               capitalize px-3 py-1.5 rounded-full text-base font-medium transition-all duration-150 border
               ${pathname === link.href
