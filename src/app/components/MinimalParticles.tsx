@@ -174,7 +174,7 @@ export default function MinimalParticles() {
         width: "100vw",
         height: "100vh",
         pointerEvents: "none",
-        zIndex: 0,
+        zIndex: -10,
         display: "block",
       }}
     />

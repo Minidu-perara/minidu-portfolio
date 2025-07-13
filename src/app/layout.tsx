@@ -25,8 +25,12 @@ export default function RootLayout({children,}: Readonly<{
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <MinimalParticles />
-        {children}
+        <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
+          <MinimalParticles />
+        </div>
+        <div className="relative z-10">
+          {children}
+        </div>
       </body>
     </html>
   )
