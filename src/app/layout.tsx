@@ -12,9 +12,11 @@ export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
   title: { default: `${profile.name} · ${profile.role}`, template: `%s · ${profile.name}` },
   description: profile.pitch,
-  authors: [{ name: profile.name }],
+  authors: [{ name: profile.name, url: profile.website }],
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
+    url: "/",
     siteName: profile.name,
     title: `${profile.name} · ${profile.role}`,
     description: profile.pitch,

@@ -65,9 +65,10 @@ public/resume.pdf
 
 ## Deployment
 
-Deployed on Vercel. The canonical URL used for metadata, `sitemap.xml` and
-`robots.txt` comes from `NEXT_PUBLIC_SITE_URL` if set, otherwise from Vercel's
-production domain. Set `NEXT_PUBLIC_SITE_URL` when a custom domain is added.
+Deployed on Vercel at **https://miniduperera.cv** (`miniduperera.vercel.app`
+redirects there). The canonical URL used for metadata, canonical links,
+`sitemap.xml` and `robots.txt` is `profile.website` in
+`src/content/profile.ts`; set `NEXT_PUBLIC_SITE_URL` only to override it.
 
 Old routes from previous versions of the site (`/portfolio`, `/about`,
 `/projects`, `/skills`, `/contact`, `/socials`, `/notes/*`, `/writing/*` and

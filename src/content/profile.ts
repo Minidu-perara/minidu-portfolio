@@ -47,6 +47,8 @@ export const profile = {
   status: "Final-year IT undergraduate at SLIIT",
   location: "Sri Lanka",
   email: "miniduthiranjayaiso@gmail.com",
+  /** Canonical address of this site. */
+  website: "https://miniduperera.cv",
   photo: { src: profilePhoto, alt: "Portrait of Minidu Perera" } satisfies Photo,
   about: [
     "I’m a final-year Information Technology undergraduate at SLIIT who enjoys designing systems, solving real-world problems and picking up new technologies along the way.",
