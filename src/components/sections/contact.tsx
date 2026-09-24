@@ -7,10 +7,10 @@ import { profile } from "@/content/profile";
 export function ContactSection() {
   return (
     <Section id="contact" title="Contact">
-      <div className="rounded-3xl bg-linear-to-br from-indigo-400/10 via-white/2 to-pink-400/10 p-6 ring-1 ring-white/10 sm:p-10">
-        <h3 className="text-2xl font-bold tracking-tight text-slate-50 sm:text-3xl">Let’s build something together.</h3>
+      <div className="rounded-3xl bg-indigo-400/5 p-6 ring-1 ring-white/10 sm:p-10">
+        <h3 className="text-2xl font-bold tracking-tight text-slate-50 sm:text-3xl">{profile.contact.heading}</h3>
         <p className="mt-3 max-w-md leading-relaxed text-slate-400">
-          Whether it’s a role, a project or a question about my work, my inbox is open.
+          {profile.contact.text}
         </p>
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <a href={`mailto:${profile.email}`} className={buttonPrimary}>

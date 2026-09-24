@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ParticleField } from "@/components/particle-field";
 import { profile } from "@/content/profile";
 import { getSiteUrl } from "@/lib/site";
 import "./globals.css";
@@ -10,14 +9,16 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
-  title: { default: `${profile.name} · ${profile.role}`, template: `%s · ${profile.name}` },
-  description: profile.pitch,
-  authors: [{ name: profile.name }],
+  title: { default: profile.seo.title, template: `%s · ${profile.name}` },
+  description: profile.seo.description,
+  authors: [{ name: profile.name, url: profile.website }],
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
+    url: "/",
     siteName: profile.name,
-    title: `${profile.name} · ${profile.role}`,
-    description: profile.pitch,
+    title: profile.seo.title,
+    description: profile.seo.description,
     images: [
       {
         url: profile.photo.src.src,
@@ -52,9 +53,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <div
           aria-hidden
-          className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(60rem_40rem_at_15%_-10%,rgba(99,102,241,0.14),transparent_70%),radial-gradient(50rem_35rem_at_110%_110%,rgba(236,72,153,0.08),transparent_70%)]"
+          className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(60rem_40rem_at_15%_-10%,rgba(99,102,241,0.12),transparent_70%)]"
         />
-        <ParticleField />
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(rgba(148,163,184,0.09)_1px,transparent_1px)] mask-[linear-gradient(to_bottom,black,transparent_85%)] bg-size-[24px_24px]"
+        />
         <div className="relative z-10 flex min-h-dvh flex-col">{children}</div>
       </body>
     </html>

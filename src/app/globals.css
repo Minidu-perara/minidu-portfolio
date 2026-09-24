@@ -43,8 +43,8 @@
     }
   }
 
-  /* The background lives on <html> only, so the fixed particle canvas can sit
-     between it and the page content. */
+  /* The background lives on <html> only, so the fixed decorative layers in the
+     root layout can sit between it and the page content. */
   body {
     @apply font-sans text-white antialiased;
   }

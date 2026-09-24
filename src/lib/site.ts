@@ -1,14 +1,11 @@
+import { profile } from "@/content/profile";
+
 /**
- * Absolute origin of the deployed site, used for metadata, the sitemap and
- * robots.txt. Set NEXT_PUBLIC_SITE_URL once a custom domain is in place;
- * until then Vercel's production URL is used, then localhost for local builds.
+ * Canonical origin of the site, used for metadata, canonical links, the
+ * sitemap and robots.txt. Always the production domain, so preview and
+ * vercel.app deployments point search engines and link previews at it.
+ * NEXT_PUBLIC_SITE_URL overrides it (for example to test a staging domain).
  */
 export function getSiteUrl(): URL {
-  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
-  if (explicit) return new URL(explicit);
-
-  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-  if (vercel) return new URL(`https://${vercel}`);
-
-  return new URL(`http://localhost:${process.env.PORT ?? 3000}`);
+  return new URL(process.env.NEXT_PUBLIC_SITE_URL || profile.website);
 }
