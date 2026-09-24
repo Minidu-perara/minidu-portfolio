@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# minidu-portfolio
 
-## Getting Started
+Personal site of Minidu Perera: a landing page and a single-page portfolio
+(education, work experience, projects, skills). Writing lives on
+[Substack](https://minidu.substack.com/).
 
-First, run the development server:
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router, Turbopack), React 19, TypeScript (strict)
+- Tailwind CSS 4 (CSS-first config in `src/app/globals.css`)
+- Every page is statically prerendered; the only client JavaScript is the
+  header, the particle background, the portfolio scroll-spy and the photo lightbox.
+
+## Getting started
+
+Requires Node.js 20.9+ (see `.nvmrc`).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Script              | What it does                                   |
+| ------------------- | ---------------------------------------------- |
+| `npm run dev`       | Start the dev server                           |
+| `npm run build`     | Production build (type-checks as part of it)   |
+| `npm run start`     | Serve the production build                     |
+| `npm run lint`      | ESLint (Next.js core-web-vitals + TypeScript)  |
+| `npm run typecheck` | Generate route types and run `tsc`             |
+| `npm run check`     | Lint, type-check and build: what CI runs       |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Editing content
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All copy is in **`src/content/profile.ts`**: name, tagline, links, education,
+experience, projects and skills. Pages only handle layout, so most updates
+are a change to that one file.
 
-## Learn More
+- **Photos** live in `src/assets/` and are imported statically, so Next.js
+  sizes, optimises and blurs them automatically. Strip EXIF/GPS metadata
+  from phone photos before adding them.
+- **Resume**: replace `public/resume.pdf` and update `profile.resume.updated`.
 
-To learn more about Next.js, take a look at the following resources:
+## Project layout
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/                 routes: / and /portfolio, plus 404, sitemap, robots, favicon
+  components/          shared UI (header, social links, particle background, …)
+    portfolio/         portfolio-only pieces (section nav, lightbox, section wrapper)
+  content/profile.ts   all site content, typed
+  lib/site.ts          canonical site URL
+  assets/              images imported by content
+public/resume.pdf
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+Deployed on Vercel. The canonical URL used for metadata, `sitemap.xml` and
+`robots.txt` comes from `NEXT_PUBLIC_SITE_URL` if set, otherwise from Vercel's
+production domain. Set `NEXT_PUBLIC_SITE_URL` when a custom domain is added.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Old routes from the previous version of the site (`/about`, `/projects`,
+`/skills`, `/contact`, `/socials`, `/notes/*`, `/writing/*` and the old resume
+filename) redirect to their new home; see `next.config.ts`.

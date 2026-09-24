@@ -1,64 +1,58 @@
-"use client";
-import Navbar from "./components/Navbar";
-import { motion } from "framer-motion";
 import Image from "next/image";
-import SocialLinks from "./components/SocialLinks";
+import { Reveal } from "@/components/reveal";
+import { SocialLinks } from "@/components/social-links";
+import { profile } from "@/content/profile";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col text-white px-2 md:px-8 relative bg-transparent">
-      <Navbar />
-      {/* MinimalParticles always behind all content */}
-      <div className="flex flex-1 flex-col items-center justify-center min-h-[60vh] md:min-h-[70vh]">
-        <section className="w-full max-w-2xl flex flex-col items-center justify-center flex-grow gap-3 md:gap-4 animate-fadeIn py-6 md:py-10">
-          <div className="relative group mb-2">
-            <Image
-              src="/profile-placeholder.jpg"
-              alt="Profile picture"
-              width={150}
-              height={150}
-              className="rounded-full shadow-xl object-cover transition-transform duration-200 group-hover:scale-105"
-              style={{ boxShadow: '0 4px 32px 0 rgba(165,180,252,0.18)' }}
-              priority
-            />
-          </div>
-          <motion.h1
-            className="text-4xl md:text-7xl font-extrabold text-center tracking-tight drop-shadow-lg cursor-pointer transition-colors duration-300"
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
-            whileHover={{ color: '#a5b4fc', scale: 1.04, fontWeight: 900 }}
-          >
-            Minidu Perera
-          </motion.h1>
-          <p className="text-xl md:text-3xl text-center font-semibold bg-gradient-to-r from-indigo-300 via-pink-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-lg animate-fadeIn animate-slideInUp delay-100" style={{ WebkitTextStroke: '0.5px rgba(255,255,255,0.10)' }}>
-            Welcome to my space in the internet.
-          </p>
-          <div className="mt-6 animate-fadeIn animate-slideInUp delay-300">
-            <SocialLinks />
-          </div>
-          <a href="mailto:miniduthiranjayaiso@gmail.com" className="mt-2 text-sm text-indigo-200 hover:underline bg-white/5 px-5 py-1.5 rounded-full transition-all duration-150 select-all cursor-pointer shadow-md border border-indigo-400/10 focus:outline-none focus:ring-2 focus:ring-indigo-400 animate-fadeIn animate-slideInUp delay-350 hover:bg-indigo-500/10 hover:text-white focus:bg-indigo-600/20 focus:text-white" style={{ WebkitBackdropFilter: 'blur(8px)', backdropFilter: 'blur(8px)' }}>
-            miniduthiranjayaiso@gmail.com
-          </a>
-          <span className="text-xs text-gray-500 mt-2 animate-fadeIn animate-slideInUp delay-400">Based in Sri Lanka</span>
-        </section>
-      </div>
-      {/* About Me Section moved further down, summary only, appears after scrolling */}
-      <section className="w-full flex flex-col items-center mt-20 mb-4">
-        <motion.div
-          className="bg-white/5 rounded-full px-8 py-4 border border-indigo-400/10 shadow-md backdrop-blur-md text-center mx-auto max-w-xl text-sm text-indigo-100 font-normal"
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          style={{ WebkitBackdropFilter: 'blur(8px)', backdropFilter: 'blur(8px)' }}
+    <main id="main" className="flex flex-1 flex-col items-center px-4 pb-8 md:px-8">
+      <section
+        aria-labelledby="hero-title"
+        className="flex min-h-[60vh] w-full max-w-2xl flex-1 flex-col items-center justify-center gap-3 py-6 md:min-h-[70vh] md:gap-4 md:py-10"
+      >
+        <Image
+          src={profile.photo.src}
+          alt={profile.photo.alt}
+          width={150}
+          height={150}
+          placeholder="blur"
+          priority
+          className="mb-2 size-[150px] rounded-full object-cover shadow-[0_4px_32px_0_rgba(165,180,252,0.18)] transition-transform duration-200 hover:scale-105 motion-safe:animate-fade-in"
+        />
+        <h1
+          id="hero-title"
+          className="text-center text-4xl font-extrabold tracking-tight drop-shadow-lg transition-colors duration-300 hover:text-indigo-300 motion-safe:animate-fade-up md:text-7xl"
         >
-          <span className="block text-base font-bold mb-2 text-indigo-200">About Me</span>
-          <span className="block text-indigo-100">
-            Software developer passionate about leveraging technology to solve real-world problems. Thrive in collaborative team environments and known for quickly mastering complex systems. Consistently deliver high-quality solutions through a commitment to continuous learning, curiosity, and technical excellence.
-          </span>
-        </motion.div>
+          {profile.name}
+        </h1>
+        <p className="bg-linear-to-r from-indigo-300 via-pink-300 to-indigo-400 bg-clip-text text-center text-xl font-semibold text-transparent drop-shadow-lg motion-safe:animate-fade-up motion-safe:[animation-delay:100ms] md:text-3xl">
+          {profile.tagline}
+        </p>
+        <div className="mt-6 motion-safe:animate-fade-up motion-safe:[animation-delay:300ms]">
+          <SocialLinks />
+        </div>
+        <a
+          href={`mailto:${profile.email}`}
+          className="glass mt-2 rounded-full px-5 py-1.5 text-sm text-indigo-200 shadow-md transition-colors duration-150 hover:bg-indigo-500/10 hover:text-white hover:underline focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:outline-none motion-safe:animate-fade-up motion-safe:[animation-delay:350ms]"
+        >
+          {profile.email}
+        </a>
+        <p className="mt-2 text-xs text-gray-500 motion-safe:animate-fade-up motion-safe:[animation-delay:400ms]">
+          Based in {profile.location}
+        </p>
       </section>
+
+      <Reveal className="mt-20 mb-4 w-full max-w-xl">
+        <section
+          aria-labelledby="about-title"
+          className="glass rounded-3xl px-8 py-4 text-center text-sm text-indigo-100 shadow-md"
+        >
+          <h2 id="about-title" className="mb-2 text-base font-bold text-indigo-200">
+            About Me
+          </h2>
+          <p>{profile.summary}</p>
+        </section>
+      </Reveal>
     </main>
   );
 }
