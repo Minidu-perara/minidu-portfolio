@@ -1,60 +1,64 @@
-import { FiArrowUpRight } from "react-icons/fi";
+import { FiArrowUpRight, FiGithub } from "react-icons/fi";
+import { PlayWhenVisible } from "@/components/fx/play-when-visible";
+import { Reveal } from "@/components/fx/reveal";
+import { SpotlightGroup } from "@/components/fx/spotlight";
+import { Tilt } from "@/components/fx/tilt";
+import { ProjectSceneArt } from "@/components/project-scenes";
 import { Section } from "@/components/ui/section";
-import { textLink } from "@/components/ui/styles";
+import { buttonGhost, textLink } from "@/components/ui/styles";
 import { TagList } from "@/components/ui/tag-list";
-import { profile, projects, type ProjectLinks } from "@/content/profile";
+import { profile, projects, sectionCopy, type ProjectLinks } from "@/content/profile";
 
-const linkLabels: Record<keyof ProjectLinks, string> = {
-  caseStudy: "Case study",
-  demo: "Demo",
-  repo: "Code",
-};
-
-function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={`${textLink} inline-flex items-center gap-1`}>
-      {children}
-      <FiArrowUpRight aria-hidden className="size-4" />
-      <span className="sr-only">(opens in a new tab)</span>
-    </a>
-  );
-}
+const linkLabels: Record<keyof ProjectLinks, string> = { caseStudy: "Case study", demo: "Demo", repo: "Code" };
 
 export function ProjectsSection() {
   return (
-    <Section id="projects" title="Projects">
-      <ul className="grid gap-4">
-        {projects.map((project) => {
+    <Section id="projects" eyebrow={sectionCopy.projects.eyebrow} title={sectionCopy.projects.title}>
+      <SpotlightGroup className="grid gap-5 md:grid-cols-2">
+        {projects.map((project, i) => {
           const links = Object.entries(project.links ?? {}).filter(([, href]) => href) as [keyof ProjectLinks, string][];
           return (
-            <li
-              key={project.title}
-              className="rounded-2xl bg-white/2 p-5 ring-1 ring-white/5 transition hover:bg-white/4 hover:ring-white/10 sm:p-6"
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <h3 className="font-semibold text-slate-100">{project.title}</h3>
-                <p className="text-xs font-medium text-slate-500">{project.role}</p>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">{project.summary}</p>
-              <div className="mt-4">
-                <TagList items={project.tech} label={`Technologies used in ${project.title}`} />
-              </div>
-              {links.length > 0 && (
-                <ul aria-label={`${project.title} links`} className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-                  {links.map(([kind, href]) => (
-                    <li key={kind}>
-                      <ExternalLink href={href}>{linkLabels[kind]}</ExternalLink>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
+            <Reveal key={project.title} threshold={0.15} className={i % 2 === 1 ? "md:translate-y-12" : undefined}>
+              <Tilt className="h-full">
+                <article className="spot surface flex h-full flex-col overflow-hidden rounded-3xl">
+                  <PlayWhenVisible className="aspect-[5/2] border-b border-white/8 bg-[radial-gradient(40rem_16rem_at_50%_0%,rgb(99_102_241/0.14),transparent_70%)] px-2">
+                    <ProjectSceneArt scene={project.scene} />
+                  </PlayWhenVisible>
+                  <div className="flex flex-1 flex-col p-6 sm:p-7">
+                    <p className="label-mono text-[0.62rem] text-signal">{project.role}</p>
+                    <h3 className="mt-3 text-xl font-bold tracking-tight text-ink sm:text-2xl">{project.title}</h3>
+                    <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-2">{project.summary}</p>
+                    <div className="mt-auto pt-6">
+                      <TagList items={project.tech} label={`Technologies used in ${project.title}`} />
+                    </div>
+                    {links.length > 0 && (
+                      <ul aria-label={`${project.title} links`} className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                        {links.map(([kind, href]) => (
+                          <li key={kind}>
+                            <a href={href} target="_blank" rel="noopener noreferrer" className={textLink}>
+                              {linkLabels[kind]}
+                              <FiArrowUpRight aria-hidden className="size-4" />
+                              <span className="sr-only">(opens in a new tab)</span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </article>
+              </Tilt>
+            </Reveal>
           );
         })}
-      </ul>
-      <p className="mt-8 text-sm">
-        <ExternalLink href={profile.githubHref}>See all my projects on GitHub</ExternalLink>
-      </p>
+      </SpotlightGroup>
+      <div className="mt-16 flex justify-center md:mt-24">
+        <a href={profile.githubHref} target="_blank" rel="noopener noreferrer" className={buttonGhost}>
+          <FiGithub aria-hidden className="size-4" />
+          See all my projects on GitHub
+          <FiArrowUpRight aria-hidden className="size-4 text-ink-3" />
+          <span className="sr-only">(opens in a new tab)</span>
+        </a>
+      </div>
     </Section>
   );
 }

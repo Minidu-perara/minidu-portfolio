@@ -40,7 +40,7 @@ export function Reveal({ children, className = "", threshold = 0.4 }: RevealProp
     <div ref={ref} className={className}>
       <div
         data-reveal={visible ? "shown" : "hidden"}
-        className="transition duration-800 ease-out motion-safe:data-[reveal=hidden]:translate-y-15 motion-safe:data-[reveal=hidden]:opacity-0"
+        className="transition-[opacity,transform,filter] duration-1000 ease-out-expo motion-safe:data-[reveal=hidden]:translate-y-10 motion-safe:data-[reveal=hidden]:opacity-0 motion-safe:data-[reveal=hidden]:blur-[6px]"
       >
         {children}
       </div>

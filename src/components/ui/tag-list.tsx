@@ -4,7 +4,7 @@ export function TagList({ items, label }: { items: readonly string[]; label: str
       {items.map((item) => (
         <li
           key={item}
-          className="rounded-full bg-indigo-400/10 px-3 py-1 text-xs font-medium text-indigo-200 ring-1 ring-indigo-300/20 ring-inset"
+          className="rounded-full bg-white/[0.04] px-3 py-1 text-xs font-medium text-ink-2 ring-1 ring-white/10 ring-inset"
         >
           {item}
         </li>

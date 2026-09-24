@@ -1,8 +1,8 @@
 import type { IconType } from "react-icons";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiSubstack } from "react-icons/si";
-import { profile, type SocialLink } from "@/content/profile";
 import { iconButton } from "@/components/ui/styles";
+import { profile, type SocialLink } from "@/content/profile";
 
 const icons: Record<SocialLink["icon"], IconType> = {
   github: FaGithub,
@@ -17,14 +17,7 @@ export function SocialLinks() {
         const Icon = icons[icon];
         return (
           <li key={label}>
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${label} (opens in a new tab)`}
-              title={label}
-              className={iconButton}
-            >
+            <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} (opens in a new tab)`} title={label} className={iconButton}>
               <Icon aria-hidden className="size-[18px]" />
             </a>
           </li>

@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
-import { buttonSecondary } from "@/components/ui/styles";
+import { buttonGhost } from "@/components/ui/styles";
 
 export default function NotFound() {
   return (
-    <main id="main" className="flex flex-1 flex-col items-center justify-center gap-4 px-6 py-24 text-center">
-      <p className="font-mono text-sm text-indigo-300">404</p>
-      <h1 className="text-4xl font-bold tracking-tight text-slate-50 sm:text-5xl">Page not found</h1>
-      <p className="text-slate-400">The page you’re looking for doesn’t exist or has moved.</p>
-      <Link href="/" className={`${buttonSecondary} mt-4`}>
+    <main id="main" className="shell flex flex-1 flex-col items-start justify-center py-32">
+      <p className="label-mono text-signal">~/404</p>
+      <h1 className="display-2 mt-5 text-[clamp(2.4rem,7vw,5rem)]">This page isn’t in production.</h1>
+      <p className="mt-5 max-w-lg text-lg text-ink-2">The address may have a typo, or the page has moved. Everything lives on the home page now.</p>
+      <Link href="/" className={`${buttonGhost} mt-10`}>
         <FiArrowLeft aria-hidden className="size-4" />
         Back to home
       </Link>

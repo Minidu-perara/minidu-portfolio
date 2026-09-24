@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
       { source: "/portfolio", destination: "/", permanent: false },
       { source: "/about", destination: "/#about", permanent: false },
       { source: "/projects", destination: "/#projects", permanent: false },
-      { source: "/skills", destination: "/#skills", permanent: false },
+      { source: "/skills", destination: "/#stack", permanent: false },
       { source: "/contact", destination: "/#contact", permanent: false },
       { source: "/socials", destination: "/#contact", permanent: false },
       { source: "/writing/:path*", destination: SUBSTACK_URL, permanent: false },

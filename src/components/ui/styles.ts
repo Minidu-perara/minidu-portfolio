@@ -1,14 +1,14 @@
-/** Shared class lists for interactive elements, so every button looks and focuses the same. */
+/** Shared class lists for interactive elements, so every control looks and focuses the same. */
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:outline-none";
+  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-[background-color,box-shadow,color] duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal";
 
-export const buttonPrimary = `${base} bg-indigo-300 text-slate-950 hover:bg-indigo-200 active:bg-indigo-300`;
+export const buttonPrimary = `${base} bg-ink text-void shadow-[0_0_0_1px_rgba(255,255,255,0.2),0_10px_36px_-8px_rgba(165,180,252,0.6)] hover:bg-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.45),0_12px_48px_-6px_rgba(165,180,252,0.85)]`;
 
-export const buttonSecondary = `${base} bg-white/5 text-slate-100 ring-1 ring-white/15 ring-inset backdrop-blur hover:bg-white/10`;
+export const buttonGhost = `${base} bg-white/[0.04] text-ink ring-1 ring-white/15 ring-inset backdrop-blur-md hover:bg-white/[0.09] hover:ring-white/30`;
 
 export const iconButton =
-  "inline-flex size-10 items-center justify-center rounded-full text-slate-400 ring-1 ring-white/10 ring-inset transition hover:bg-white/5 hover:text-slate-100 focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:outline-none";
+  "inline-flex size-10 items-center justify-center rounded-full text-ink-2 ring-1 ring-white/10 ring-inset transition hover:bg-white/[0.06] hover:text-ink hover:ring-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal";
 
 export const textLink =
-  "rounded-sm font-medium text-slate-100 underline decoration-indigo-300/40 underline-offset-4 transition hover:decoration-indigo-300 focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:outline-none";
+  "inline-flex items-center gap-1 rounded-sm font-medium text-ink underline decoration-signal/40 underline-offset-4 transition hover:decoration-signal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal";
