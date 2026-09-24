@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Mona_Sans } from "next/font/google";
+import { CursorGlow } from "@/components/fx/cursor-glow";
+import { SiteNav } from "@/components/site-nav";
 import { profile } from "@/content/profile";
 import { getSiteUrl } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+// Mona Sans is variable in weight and width; the hero animates both axes.
+const monaSans = Mona_Sans({ variable: "--font-mona", subsets: ["latin"], axes: ["wdth"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -32,33 +35,28 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: "#04050a",
   colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${monaSans.variable} ${geistMono.variable}`}>
       <head>
         <noscript>
-          <style>{"[data-reveal]{opacity:1!important;translate:none!important}"}</style>
+          <style>{"[data-reveal]{opacity:1!important;translate:none!important;filter:none!important}"}</style>
         </noscript>
       </head>
       <body>
         <a
           href="#main"
-          className="sr-only rounded bg-white px-3 py-2 text-black focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50"
+          className="sr-only rounded-full bg-ink px-4 py-2 text-sm font-semibold text-void focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[80]"
         >
           Skip to content
         </a>
-        <div
-          aria-hidden
-          className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(60rem_40rem_at_15%_-10%,rgba(99,102,241,0.12),transparent_70%)]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(rgba(148,163,184,0.09)_1px,transparent_1px)] mask-[linear-gradient(to_bottom,black,transparent_85%)] bg-size-[24px_24px]"
-        />
+        <div aria-hidden className="grain" />
+        <CursorGlow />
+        <SiteNav />
         <div className="relative z-10 flex min-h-dvh flex-col">{children}</div>
       </body>
     </html>

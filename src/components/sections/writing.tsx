@@ -10,7 +10,7 @@ export async function WritingSection() {
   const posts = await getLatestPosts(new URL("/feed", profile.substackHref).href);
 
   return (
-    <Section id="writing" title="Writing">
+    <Section id="writing" eyebrow="writing" title="Writing">
       {posts.length > 0 ? (
         <ul className="grid gap-3">
           {posts.map((post) => (
