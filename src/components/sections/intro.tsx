@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FiArrowUpRight, FiBookOpen, FiFileText, FiMail, FiMapPin } from "react-icons/fi";
+import { FiBookOpen, FiDownload, FiMail, FiMapPin } from "react-icons/fi";
 import { SidebarNav, type NavSection } from "@/components/section-nav";
 import { SocialLinks } from "@/components/social-links";
 import { buttonPrimary, buttonSecondary } from "@/components/ui/styles";
@@ -25,7 +25,7 @@ export function Intro({ sections }: { sections: readonly NavSection[] }) {
           />
           <div>
             <h1 className="text-4xl font-bold tracking-tight text-slate-50 sm:text-5xl">{profile.name}</h1>
-            <p className="mt-1.5 w-fit bg-linear-to-r from-indigo-300 via-pink-300 to-indigo-300 bg-clip-text text-lg font-medium text-transparent sm:text-xl">
+            <p className="mt-1.5 text-lg font-medium text-indigo-300 sm:text-xl">
               {profile.role}
             </p>
           </div>
@@ -42,7 +42,7 @@ export function Intro({ sections }: { sections: readonly NavSection[] }) {
           </li>
           <li className="flex items-center gap-2.5">
             <FiMapPin aria-hidden className="size-4 shrink-0 text-indigo-300" />
-            Based in {profile.location}
+            {profile.location}
           </li>
         </ul>
 
@@ -51,11 +51,10 @@ export function Intro({ sections }: { sections: readonly NavSection[] }) {
             <FiMail aria-hidden className="size-4" />
             Email me
           </a>
-          <a href={profile.resumeHref} target="_blank" rel="noopener" className={buttonSecondary}>
-            <FiFileText aria-hidden className="size-4" />
-            Résumé
-            <FiArrowUpRight aria-hidden className="size-3.5 text-slate-400" />
-            <span className="sr-only">(PDF, opens in a new tab)</span>
+          <a href={profile.resume.href} download={profile.resume.downloadName} className={buttonSecondary}>
+            <FiDownload aria-hidden className="size-4" />
+            Download CV
+            <span className="sr-only">(PDF)</span>
           </a>
         </div>
 

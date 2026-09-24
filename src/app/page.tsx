@@ -4,6 +4,7 @@ import { ContactSection } from "@/components/sections/contact";
 import { EducationSection } from "@/components/sections/education";
 import { ExperienceSection } from "@/components/sections/experience";
 import { Footer } from "@/components/sections/footer";
+import { Highlights } from "@/components/sections/highlights";
 import { Intro } from "@/components/sections/intro";
 import { ProjectsSection } from "@/components/sections/projects";
 import { SkillsSection } from "@/components/sections/skills";
@@ -25,7 +26,10 @@ export default function HomePage() {
       <Intro sections={sections} />
       <SectionBar sections={sections} />
       <main id="main" className="flex max-w-2xl flex-col gap-24 pb-12 lg:w-[54%] lg:max-w-none lg:gap-28 lg:py-20">
-        <About />
+        <div className="flex flex-col gap-16">
+          <Highlights />
+          <About />
+        </div>
         <ExperienceSection />
         <ProjectsSection />
         <SkillsSection />

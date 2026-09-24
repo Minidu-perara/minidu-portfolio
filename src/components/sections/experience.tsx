@@ -17,10 +17,11 @@ export function ExperienceSection() {
             <h3 className="mt-1.5 font-semibold text-slate-100">
               {job.role} <span className="text-slate-500">·</span> <span className="text-indigo-200">{job.company}</span>
             </h3>
+            <p className="mt-1 text-sm text-slate-500">{job.context}</p>
             <ul className="mt-4 flex flex-col gap-2 text-sm leading-relaxed text-slate-400">
               {job.highlights.map((item) => (
                 <li key={item} className="flex gap-3">
-                  <span aria-hidden className="mt-2 size-1 shrink-0 rounded-full bg-pink-300/70" />
+                  <span aria-hidden className="mt-2 size-1 shrink-0 rounded-full bg-indigo-300/70" />
                   {item}
                 </li>
               ))}

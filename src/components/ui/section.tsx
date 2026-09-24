@@ -10,7 +10,7 @@ export function Section({ id, title, children }: { id: string; title: string; ch
           id={`${id}-heading`}
           className="mb-8 flex items-center gap-3 text-sm font-bold tracking-widest text-slate-100 uppercase"
         >
-          <span aria-hidden className="h-px w-6 bg-linear-to-r from-indigo-300 to-pink-300" />
+          <span aria-hidden className="h-px w-6 bg-indigo-300" />
           {title}
         </h2>
         {children}
