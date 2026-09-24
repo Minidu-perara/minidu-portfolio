@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Viewports tall enough for the roomier sticky intro column. */
+@custom-variant tall (@media (min-height: 54rem));
+
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
@@ -46,20 +49,16 @@
     @apply font-sans text-white antialiased;
   }
 
-  /* Keep anchored sections clear of the sticky mobile section nav. */
+  /* Keep anchored sections clear of the sticky mobile section bar. */
   section[id] {
-    scroll-margin-top: 5rem;
+    scroll-margin-top: 5.5rem;
   }
 
   ::selection {
     @apply bg-indigo-400/40 text-white;
   }
-}
 
-@utility glass {
-  @apply border border-indigo-400/10 bg-white/5 backdrop-blur-md;
-}
-
-@utility card {
-  @apply rounded-2xl border-l-4 border-indigo-500 bg-linear-to-br from-white/10 via-black/30 to-white/5 p-6 shadow-2xl md:p-10;
+  :focus-visible {
+    outline-color: var(--color-indigo-300);
+  }
 }

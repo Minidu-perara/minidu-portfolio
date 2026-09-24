@@ -242,5 +242,5 @@ export function ParticleField() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} aria-hidden className="pointer-events-none fixed inset-0 z-0 block size-full" />;
+  return <canvas ref={canvasRef} aria-hidden className="pointer-events-none fixed inset-0 z-0 block size-full opacity-50" />;
 }

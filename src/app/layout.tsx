@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ParticleField } from "@/components/particle-field";
-import { SiteHeader } from "@/components/site-header";
 import { profile } from "@/content/profile";
 import { getSiteUrl } from "@/lib/site";
 import "./globals.css";
@@ -11,14 +10,14 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
-  title: { default: profile.name, template: `%s · ${profile.name}` },
-  description: profile.headline,
+  title: { default: `${profile.name} · ${profile.role}`, template: `%s · ${profile.name}` },
+  description: profile.pitch,
   authors: [{ name: profile.name }],
   openGraph: {
     type: "website",
     siteName: profile.name,
-    title: profile.name,
-    description: profile.headline,
+    title: `${profile.name} · ${profile.role}`,
+    description: profile.pitch,
     images: [
       {
         url: profile.photo.src.src,
@@ -51,11 +50,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(60rem_40rem_at_15%_-10%,rgba(99,102,241,0.14),transparent_70%),radial-gradient(50rem_35rem_at_110%_110%,rgba(236,72,153,0.08),transparent_70%)]"
+        />
         <ParticleField />
-        <div className="relative z-10 flex min-h-dvh flex-col">
-          <SiteHeader />
-          {children}
-        </div>
+        <div className="relative z-10 flex min-h-dvh flex-col">{children}</div>
       </body>
     </html>
   );

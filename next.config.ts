@@ -16,17 +16,18 @@ const nextConfig: NextConfig = {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
 
-  // Routes from the previous version of the site. Their content now lives on
-  // the home or portfolio page (or on Substack), so keep old links working.
-  // Temporary (307) redirects so they can be reused later without browsers
-  // having cached a permanent redirect.
+  // Routes from previous versions of the site. Everything now lives on the
+  // single home page (or on Substack), so keep old links working. Temporary
+  // (307) redirects so the paths can be reused later without browsers having
+  // cached a permanent redirect.
   async redirects() {
     return [
-      { source: "/about", destination: "/portfolio", permanent: false },
-      { source: "/projects", destination: "/portfolio", permanent: false },
-      { source: "/skills", destination: "/portfolio", permanent: false },
-      { source: "/contact", destination: "/", permanent: false },
-      { source: "/socials", destination: "/", permanent: false },
+      { source: "/portfolio", destination: "/", permanent: false },
+      { source: "/about", destination: "/#about", permanent: false },
+      { source: "/projects", destination: "/#projects", permanent: false },
+      { source: "/skills", destination: "/#skills", permanent: false },
+      { source: "/contact", destination: "/#contact", permanent: false },
+      { source: "/socials", destination: "/#contact", permanent: false },
       { source: "/writing/:path*", destination: SUBSTACK_URL, permanent: false },
       { source: "/notes/:path*", destination: SUBSTACK_URL, permanent: false },
       { source: "/Master%20Resume%20Minidu.pdf", destination: "/resume.pdf", permanent: false },

@@ -1,15 +1,18 @@
 import type { IconType } from "react-icons";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { SiSubstack } from "react-icons/si";
 import { profile, type SocialLink } from "@/content/profile";
+import { iconButton } from "@/components/ui/styles";
 
 const icons: Record<SocialLink["icon"], IconType> = {
   github: FaGithub,
   linkedin: FaLinkedin,
+  substack: SiSubstack,
 };
 
 export function SocialLinks() {
   return (
-    <ul className="flex gap-6">
+    <ul className="flex items-center gap-2">
       {profile.socials.map(({ label, href, icon }) => {
         const Icon = icons[icon];
         return (
@@ -19,9 +22,10 @@ export function SocialLinks() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${label} (opens in a new tab)`}
-              className="glass block rounded-full px-3 py-2 text-white shadow-md transition duration-200 hover:scale-125 hover:bg-indigo-500/10 hover:text-blue-400 hover:drop-shadow-[0_0_8px_#60a5fa] focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:outline-none"
+              title={label}
+              className={iconButton}
             >
-              <Icon size={32} aria-hidden />
+              <Icon aria-hidden className="size-[18px]" />
             </a>
           </li>
         );
