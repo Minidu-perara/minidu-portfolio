@@ -70,7 +70,7 @@ public/resume.pdf
 
 ## Deployment
 
-Deployed on Vercel at **https://miniduperera.vercel.app**. The canonical URL used for metadata, canonical links,
+Deployed on Vercel at **https://miniduperera.tech** (`miniduperera.vercel.app` redirects there). The canonical URL used for metadata, canonical links,
 `sitemap.xml` and `robots.txt` is `profile.website` in
 `src/content/profile.ts`; set `NEXT_PUBLIC_SITE_URL` only to override it.
 
