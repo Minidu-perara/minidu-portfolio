@@ -53,7 +53,7 @@ export function ProjectsSection() {
         })}
       </ul>
       <p className="mt-8 text-sm">
-        <ExternalLink href={profile.githubHref}>More on GitHub</ExternalLink>
+        <ExternalLink href={profile.githubHref}>See all my projects on GitHub</ExternalLink>
       </p>
     </Section>
   );

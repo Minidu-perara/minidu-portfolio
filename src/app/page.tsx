@@ -8,15 +8,16 @@ import { Highlights } from "@/components/sections/highlights";
 import { Intro } from "@/components/sections/intro";
 import { ProjectsSection } from "@/components/sections/projects";
 import { SkillsSection } from "@/components/sections/skills";
-import { WritingSection } from "@/components/sections/writing";
 
+// A Writing section (components/sections/writing.tsx, latest Substack posts)
+// is built but not shown for now. To bring it back, render <WritingSection />
+// before <ContactSection /> and add { id: "writing", label: "Writing" } here.
 const sections: readonly NavSection[] = [
   { id: "about", label: "About" },
   { id: "experience", label: "Experience" },
   { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
   { id: "education", label: "Education" },
-  { id: "writing", label: "Writing" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -34,7 +35,6 @@ export default function HomePage() {
         <ProjectsSection />
         <SkillsSection />
         <EducationSection />
-        <WritingSection />
         <ContactSection />
         <Footer />
       </main>

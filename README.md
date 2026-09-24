@@ -1,8 +1,8 @@
 # minidu-portfolio
 
 Personal site of Minidu Perera, software engineer (backend): a single page
-covering highlights, about, experience, projects, skills, education, writing
-and contact. On large screens a sticky
+covering highlights, about, experience, projects, skills, education and
+contact. On large screens a sticky
 intro column (identity, primary actions, section nav) sits beside the
 scrolling content; on small screens it becomes a hero with a sticky section bar.
 
@@ -10,12 +10,12 @@ scrolling content; on small screens it becomes a hero with a sticky section bar.
 
 - [Next.js 16](https://nextjs.org) (App Router, Turbopack), React 19, TypeScript (strict)
 - Tailwind CSS 4 (CSS-first config in `src/app/globals.css`)
-- The page is statically prerendered and revalidated daily. Client JavaScript
+- The page is statically prerendered. Client JavaScript
   is limited to the scroll-spy nav, scroll reveal, copy-email button and
   photo lightbox.
-- The Writing section lists the latest posts from the Substack RSS feed
-  (`src/lib/substack.ts`). If the feed can't be reached, it falls back to a
-  link, so builds never fail because of it.
+- A Writing section that lists the latest posts from the Substack RSS feed is
+  built (`src/components/sections/writing.tsx`, `src/lib/substack.ts`) but not
+  shown yet; `src/app/page.tsx` explains how to switch it on.
 
 ## Getting started
 
@@ -70,8 +70,7 @@ public/resume.pdf
 
 ## Deployment
 
-Deployed on Vercel at **https://miniduperera.cv** (`miniduperera.vercel.app`
-redirects there). The canonical URL used for metadata, canonical links,
+Deployed on Vercel at **https://miniduperera.vercel.app**. The canonical URL used for metadata, canonical links,
 `sitemap.xml` and `robots.txt` is `profile.website` in
 `src/content/profile.ts`; set `NEXT_PUBLIC_SITE_URL` only to override it.
 

@@ -57,7 +57,7 @@ export const profile = {
   location: "Colombo, Sri Lanka · open to remote",
   email: "miniduthiranjayaiso@gmail.com",
   /** Canonical address of this site. */
-  website: "https://miniduperera.cv",
+  website: "https://miniduperera.vercel.app",
   seo: {
     title: "Minidu Perera · Software Engineer (Backend) · Sri Lanka",
     description:
