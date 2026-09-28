@@ -62,7 +62,7 @@ export type Project = {
 
 export type SkillGroup = {
   category: string;
-  icon: "code" | "server" | "terminal" | "check" | "bank" | "cpu";
+  icon: "code" | "server" | "terminal" | "cloud" | "ai" | "check" | "bank" | "cpu";
   items: string[];
 };
 
@@ -97,6 +97,7 @@ export const profile = {
       "I’m a software engineer finishing my BSc (Hons) in Information Technology at SLIIT, graduating in October 2026. I’m looking for a graduate, associate or junior software engineering role, backend by preference, in Sri Lanka or remote.",
       "For six months at SysEnact Consulting I worked on a live core-banking system. I built the loan-disbursement solution that State Mortgage & Investment Bank’s loan officers use, working on-site with them to turn their requests into working features, and I handled the Linux side: SSH, file transfers, permissions and deployments. Disbursement rejections fell by about 30% after it went live.",
       "At university I’ve led teams of four to eight people through IoT, machine-learning and full-stack projects, and outside class I build systems I use every day.",
+      "I’ve also set up virtual machines and networking on Azure, and I work with the newest AI tools, integrating AI into existing systems.",
     ],
     principlesLead: "That work taught me a few things I now build by:",
     principles: [
@@ -192,6 +193,8 @@ export const skills: SkillGroup[] = [
   { category: "Languages", icon: "code", items: ["Java", "JavaScript / TypeScript", "Python", "SQL", "C++"] },
   { category: "Backend & web", icon: "server", items: ["Spring Boot", "Node.js / Express", "REST APIs", "React", "Next.js", "MongoDB"] },
   { category: "Production & ops", icon: "terminal", items: ["Linux", "SSH & file transfer", "Deployments", "Git", "Production debugging"] },
+  { category: "Cloud · Azure", icon: "cloud", items: ["Azure Virtual Machines", "Azure networking", "VM setup & configuration"] },
+  { category: "AI integration", icon: "ai", items: ["Latest AI tools", "LLM APIs", "Integrating AI into existing systems"] },
   { category: "Testing", icon: "check", items: ["Unit & integration testing", "Cypress", "Selenium"] },
   { category: "Core banking", icon: "bank", items: ["Temenos T24", "InfoBasic", "Enquiry & Version programming"] },
   { category: "IoT & ML", icon: "cpu", items: ["ESP32 / ESP8266", "Arduino", "MQTT", "scikit-learn", "TensorFlow", "pandas"] },

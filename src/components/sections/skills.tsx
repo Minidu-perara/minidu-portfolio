@@ -1,5 +1,5 @@
 import type { IconType } from "react-icons";
-import { FiCheckCircle, FiCode, FiCpu, FiCreditCard, FiServer, FiTerminal } from "react-icons/fi";
+import { FiCheckCircle, FiCloud, FiCode, FiCpu, FiCreditCard, FiServer, FiTerminal, FiZap } from "react-icons/fi";
 import { Reveal } from "@/components/fx/reveal";
 import { SpotlightGroup } from "@/components/fx/spotlight";
 import { Section } from "@/components/ui/section";
@@ -10,6 +10,8 @@ const icons: Record<SkillGroup["icon"], IconType> = {
   code: FiCode,
   server: FiServer,
   terminal: FiTerminal,
+  cloud: FiCloud,
+  ai: FiZap,
   check: FiCheckCircle,
   bank: FiCreditCard,
   cpu: FiCpu,
@@ -47,7 +49,7 @@ export function SkillsSection() {
         <MarqueeRow items={rows[1]!} outlined />
       </div>
       <Reveal threshold={0.1} className="mt-14">
-        <SpotlightGroup className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <SpotlightGroup className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {skills.map((group) => {
             const Icon = icons[group.icon];
             return (
