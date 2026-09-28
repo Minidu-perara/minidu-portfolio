@@ -50,10 +50,13 @@ export function SkillsSection() {
       </div>
       <Reveal threshold={0.1} className="mt-14">
         <SpotlightGroup className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          {skills.map((group) => {
+          {skills.map((group, i) => {
             const Icon = icons[group.icon];
+            // Let the last card fill its row so the grid has no gap.
+            const isLast = i === skills.length - 1;
+            const span = `${isLast && skills.length % 2 === 1 ? "sm:col-span-2" : ""} ${isLast && skills.length % 4 === 3 ? "xl:col-span-2" : "xl:col-span-1"}`;
             return (
-              <article key={group.category} className="spot surface flex flex-col gap-5 p-6">
+              <article key={group.category} className={`spot surface flex flex-col gap-5 p-6 ${span}`}>
                 <div className="flex items-center gap-3">
                   <span className="grid size-9 place-items-center rounded-xl bg-signal/10 text-signal ring-1 ring-signal/20">
                     <Icon aria-hidden className="size-4" />

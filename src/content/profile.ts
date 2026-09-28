@@ -95,9 +95,9 @@ export const profile = {
   about: {
     paragraphs: [
       "I’m a software engineer finishing my BSc (Hons) in Information Technology at SLIIT, graduating in October 2026. I’m looking for a graduate, associate or junior software engineering role, backend by preference, in Sri Lanka or remote.",
-      "For six months at SysEnact Consulting I worked on a live core-banking system. I built the loan-disbursement solution that State Mortgage & Investment Bank’s loan officers use, working on-site with them to turn their requests into working features, and I handled the Linux side: SSH, file transfers, permissions and deployments. Disbursement rejections fell by about 30% after it went live.",
+      "For six months at SysEnact Consulting I worked on a live core-banking system. I built the loan-disbursement solution that State Mortgage & Investment Bank’s loan officers use, working on-site with them to turn their requests into working features, and I handled the Linux side (SSH, file transfers, permissions and deployments) and set up Azure VMs and virtual networking. Disbursement rejections fell by about 30% after it went live.",
       "At university I’ve led teams of four to eight people through IoT, machine-learning and full-stack projects, and outside class I build systems I use every day.",
-      "I’ve also set up virtual machines and networking on Azure, and I work with the newest AI tools, integrating AI into existing systems.",
+      "I also work with the newest AI tools, from Claude Code and agentic coding tools to integrating AI into existing systems, and they help me ramp up quickly on unfamiliar codebases.",
     ],
     principlesLead: "That work taught me a few things I now build by:",
     principles: [
@@ -131,23 +131,24 @@ export const experience: Experience[] = [
     period: "Nov 2024 – May 2025",
     highlights: [
       "Built the loan-disbursement solution for SMIB (State Mortgage & Investment Bank) on Temenos T24: the loan officers’ screens and the business logic behind them. Disbursement rejections fell by about 30% after deployment.",
-      "Wrote InfoBasic routines and Java logic on the backend, including Enquiry programs for secured data retrieval and Version programs for input and validation.",
+      "Learned T24’s proprietary InfoBasic language and Java framework on the job, then wrote InfoBasic routines and Java logic on the backend, including Enquiry programs for secured data retrieval and Version programs for input and validation.",
       "Worked on-site at SMIB head office with the bank’s loan officers, turning their requests into working features.",
       "Fixed live production issues alongside business analysts, often the same day, and built the Cashback Loan Advice report.",
-      "Ran Linux server operations for live banking services: SSH, secure file transfer, permissions and backend deployments. Also worked on DFCC Bank tasks.",
+      "Ran Linux server operations for live banking services (SSH, SFTP, permissions, deployments) and set up Azure VMs and virtual networking. Also worked on DFCC Bank tasks.",
     ],
-    tech: ["Java", "InfoBasic", "Temenos T24", "Linux", "Production support"],
+    tech: ["Java", "InfoBasic", "Temenos T24", "Linux", "Azure", "Production support"],
     photo: { src: sysenactTeamPhoto, alt: "The SysEnact Consulting team" },
     log: [
       { when: "2024-11", level: "INFO", source: "sysenact", message: "Joined the core-banking team (Temenos T24)" },
       { level: "INFO", source: "smib.onsite", message: "On-site at SMIB head office with the bank’s loan officers" },
       { level: "BUILD", source: "disbursement", message: "Loan-disbursement solution: the officers’ screens and the business logic behind them" },
-      { level: "BUILD", source: "t24.backend", message: "InfoBasic routines and Java: Enquiry programs for secured retrieval, Version programs for input and validation" },
+      { level: "BUILD", source: "t24.backend", message: "Learned InfoBasic and T24’s Java framework on the job, then shipped Enquiry programs for secured retrieval, Version programs for input and validation" },
       { level: "DEPLOY", source: "production", message: "Loan-disbursement solution live for SMIB’s loan officers" },
       { level: "METRIC", source: "rejections", message: "Disbursement rejections down ~30%, measured before and after deployment" },
       { level: "FIX", source: "prod.support", message: "Live production issues fixed with business analysts, often the same day" },
       { level: "BUILD", source: "reports", message: "Cashback Loan Advice report" },
-      { level: "OPS", source: "linux", message: "SSH, secure file transfer, permissions and backend deployments for live banking services" },
+      { level: "OPS", source: "linux", message: "SSH, SFTP, permissions and backend deployments for live banking services" },
+      { level: "OPS", source: "azure", message: "Set up Azure VMs and virtual networking" },
       { level: "INFO", source: "dfcc", message: "Also worked on DFCC Bank tasks" },
       { when: "2025-05", level: "INFO", source: "sysenact", message: "Internship complete: six months on a live banking system" },
     ],
@@ -184,7 +185,7 @@ export const projects: Project[] = [
     scene: "calendar",
     role: "Team lead · 8 people",
     summary:
-      "A platform connecting couples with venues and vendors, with booking workflows, client dashboards and admin panels. I coordinated an eight-person team through delivery.",
+      "A platform connecting couples with venues and vendors, with booking workflows, client dashboards and admin panels.",
     tech: ["MongoDB", "Express", "React", "Node.js"],
   },
 ];
@@ -192,9 +193,8 @@ export const projects: Project[] = [
 export const skills: SkillGroup[] = [
   { category: "Languages", icon: "code", items: ["Java", "JavaScript / TypeScript", "Python", "SQL", "C++"] },
   { category: "Backend & web", icon: "server", items: ["Spring Boot", "Node.js / Express", "REST APIs", "React", "Next.js", "MongoDB"] },
-  { category: "Production & ops", icon: "terminal", items: ["Linux", "SSH & file transfer", "Deployments", "Git", "Production debugging"] },
-  { category: "Cloud · Azure", icon: "cloud", items: ["Azure Virtual Machines", "Azure networking", "VM setup & configuration"] },
-  { category: "AI integration", icon: "ai", items: ["Latest AI tools", "LLM APIs", "Integrating AI into existing systems"] },
+  { category: "Cloud & ops", icon: "cloud", items: ["Microsoft Azure", "Virtual networks", "VM setup", "Linux", "SSH / SFTP", "Deployments", "Git", "Production debugging"] },
+  { category: "AI-assisted dev", icon: "ai", items: ["Claude Code", "Agentic coding tools", "AI integration into existing systems", "Ramping up on unfamiliar codebases"] },
   { category: "Testing", icon: "check", items: ["Unit & integration testing", "Cypress", "Selenium"] },
   { category: "Core banking", icon: "bank", items: ["Temenos T24", "InfoBasic", "Enquiry & Version programming"] },
   { category: "IoT & ML", icon: "cpu", items: ["ESP32 / ESP8266", "Arduino", "MQTT", "scikit-learn", "TensorFlow", "pandas"] },
