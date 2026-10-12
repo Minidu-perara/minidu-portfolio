@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FiArrowDown } from "react-icons/fi";
+import { NeuralField } from "@/components/fx/neural-field";
 import { WhatsAppButton } from "@/components/services/whatsapp-button";
 import { profile, services } from "@/content/profile";
 
@@ -11,7 +12,10 @@ export function ServicesHero() {
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(70rem_42rem_at_85%_0%,#11163d,transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(40rem_26rem_at_0%_100%,rgb(251_191_36/0.07),transparent_70%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-void to-transparent" />
+        <NeuralField className="absolute inset-0 size-full opacity-0 transition-opacity duration-[1.6s] data-[state=ready]:opacity-80 lg:data-[state=ready]:opacity-100" />
+        {/* Keep the words calm: the network fades out behind the text column. */}
+        <div className="absolute inset-0 bg-[radial-gradient(52rem_36rem_at_18%_62%,rgb(7_12_34/0.8),rgb(7_12_34/0.35)_55%,transparent_80%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-navy to-transparent" />
       </div>
 
       <div className="shell grid gap-10 pt-24 pb-14 sm:pt-32 sm:pb-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:items-center lg:gap-16 lg:pt-36 lg:pb-28">
@@ -46,11 +50,20 @@ export function ServicesHero() {
           <p className="label-mono mt-6 text-sun motion-safe:animate-fade-up motion-safe:[animation-delay:80ms]">{hero.eyebrow}</p>
           <h1
             id="services-heading"
-            className="display-2 mt-5 text-[clamp(2.9rem,12.5vw,6.25rem)] leading-[0.98] font-extrabold motion-safe:animate-fade-up motion-safe:[animation-delay:160ms]"
+            className="display-2 mt-5 text-[clamp(2.9rem,12.5vw,6.25rem)] leading-[0.98] font-extrabold"
           >
-            {hero.title}
+            {/* Each word rises out of its own line box, one after another. */}
+            {hero.title.split(" ").map((word, i) => (
+              <span key={i}>
+                <span className="-mb-[0.12em] inline-block overflow-clip pb-[0.12em] align-top">
+                  <span className="inline-block motion-safe:animate-rise" style={{ animationDelay: `${140 + i * 110}ms` }}>
+                    {word}
+                  </span>
+                </span>{" "}
+              </span>
+            ))}
           </h1>
-          <span aria-hidden className="mt-7 block h-1.5 w-20 rounded-full bg-sun motion-safe:animate-fade-up motion-safe:[animation-delay:240ms]" />
+          <span aria-hidden className="svc-rule mt-7 block h-1.5 w-20 rounded-full bg-sun" />
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-2 sm:text-xl motion-safe:animate-fade-up motion-safe:[animation-delay:320ms]">
             {hero.text}
           </p>
