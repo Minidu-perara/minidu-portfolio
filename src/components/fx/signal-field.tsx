@@ -15,6 +15,9 @@ uniform float uTime;
 uniform vec2 uPointer;
 uniform float uHover;
 uniform vec3 uRipple;
+// Widens the contour lines' anti-aliasing when the field is drawn below
+// screen resolution, so upscaling softens them instead of stair-stepping.
+uniform float uSoft;
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -72,7 +75,7 @@ vec3 shade(vec2 frag) {
 
   // Contour lines, with every fifth line brighter.
   float g = f * 20.0;
-  float aa = max(fwidth(g), 0.001);
+  float aa = max(fwidth(g), 0.001) * uSoft;
   float d = abs(fract(g) - 0.5);
   float line = 1.0 - smoothstep(0.0, aa * 1.2, d);
   float major = 1.0 - smoothstep(0.0, aa * 1.8, abs(fract(g / 5.0) - 0.5) * 5.0);
@@ -201,6 +204,7 @@ function mountField(canvas: HTMLCanvasElement): (() => void) | undefined {
   const uPointer = uniform("uPointer");
   const uHover = uniform("uHover");
   const uRipple = uniform("uRipple");
+  const uSoft = uniform("uSoft");
 
   const reduced = prefersReducedMotion();
   const fine = hasFinePointer();
@@ -208,8 +212,10 @@ function mountField(canvas: HTMLCanvasElement): (() => void) | undefined {
   const small = window.matchMedia("(max-width: 640px)").matches;
   // Rendered below device resolution and upscaled: the field is soft by
   // nature, and this keeps it smooth on laptops and phones alike. Phone GPUs
-  // get far fewer pixels.
-  let quality = touch ? 0.4 : small ? 0.55 : 0.8;
+  // get fewer pixels, drawn with softer lines so the upscale stays smooth.
+  let quality = touch ? 0.6 : small ? 0.55 : 0.8;
+  // Below this, thin lines turn blocky when upscaled.
+  const minQuality = touch ? 0.5 : 0.35;
   let time = 18; // a pleasing first frame
   let ripple: [number, number, number] = [0, 0, -1];
   // Pointer position as a fraction of the canvas (y up), eased toward target.
@@ -232,6 +238,7 @@ function mountField(canvas: HTMLCanvasElement): (() => void) | undefined {
     context.uniform2f(uPointer, pointer.x * canvas.width, pointer.y * canvas.height);
     context.uniform1f(uHover, reduced ? 0 : pointer.hover);
     context.uniform3f(uRipple, ripple[0] * canvas.width, ripple[1] * canvas.height, ripple[2]);
+    context.uniform1f(uSoft, touch ? 1.6 : 1);
     context.drawArrays(context.TRIANGLES, 0, 3);
   };
 
@@ -264,8 +271,8 @@ function mountField(canvas: HTMLCanvasElement): (() => void) | undefined {
 
     // If frames are consistently slow, render fewer pixels.
     slowFrames = dt > (touch ? 0.045 : 0.024) ? slowFrames + 1 : Math.max(0, slowFrames - 1);
-    if (slowFrames > 45 && quality > 0.35) {
-      quality *= 0.8;
+    if (slowFrames > 45 && quality > minQuality) {
+      quality = Math.max(minQuality, quality * 0.85);
       slowFrames = 0;
       resize();
     }
