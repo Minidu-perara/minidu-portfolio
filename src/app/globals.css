@@ -223,6 +223,13 @@
     opacity: 0.05;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
+  /* A full-screen layer over everything costs a phone on every scrolled
+     frame, for grain it can barely show at this size. */
+  @media (pointer: coarse) {
+    .grain {
+      display: none;
+    }
+  }
 
   /* Career log lines are visible by default (no-JS, reduced motion) and
      hidden only once the log script takes over. */
@@ -267,6 +274,15 @@
   }
   .badge[data-tracking="true"] {
     transition: transform 0.12s linear;
+  }
+  /* Touch screens: a still, tilted pose with the foil caught mid-shine. */
+  @media (pointer: coarse) {
+    .badge {
+      --rx: 4deg;
+      --ry: -8deg;
+      --gx: 30%;
+      --gy: 35%;
+    }
   }
   .badge-foil {
     background: repeating-linear-gradient(
@@ -386,6 +402,19 @@
       font-variation-settings: "wght" 200, "wdth" 75;
     }
   }
+  /* Phones: rise in without animating the font axes, which re-lays out the
+     letters on every frame. */
+  @keyframes kinetic-in-lite {
+    from {
+      opacity: 0;
+      transform: translateY(0.45em);
+    }
+  }
+  @media (pointer: coarse) {
+    .kinetic-char {
+      animation-name: kinetic-in-lite;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .kinetic-char {
       animation: none;
@@ -393,55 +422,16 @@
   }
 }
 
-/* Registered so the badge foil can shimmer on its own on touch screens. */
-@property --gx {
-  syntax: "<percentage>";
-  inherits: true;
-  initial-value: 50%;
-}
-@property --gy {
-  syntax: "<percentage>";
-  inherits: true;
-  initial-value: 30%;
-}
-
-@layer components {
-  .badge[data-idle="true"] {
-    animation:
-      badge-sway 9s ease-in-out infinite,
-      badge-shimmer 7s ease-in-out infinite;
-  }
-  @keyframes badge-sway {
-    0%,
-    100% {
-      --rx: 5deg;
-      --ry: -9deg;
-    }
-    50% {
-      --rx: -4deg;
-      --ry: 9deg;
-    }
-  }
-  @keyframes badge-shimmer {
-    0%,
-    100% {
-      --gx: 15%;
-      --gy: 20%;
-    }
-    50% {
-      --gx: 85%;
-      --gy: 75%;
-    }
+/* Phones: the entrance fade without its blur. Animating a filter over large
+   text is one of the most expensive things a phone can be asked to paint. */
+@keyframes fade-up-lite {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
 }
-
-@property --rx {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0deg;
-}
-@property --ry {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0deg;
+@media (pointer: coarse) {
+  :root {
+    --animate-fade-up: fade-up-lite 0.8s var(--ease-out-expo) both;
+  }
 }

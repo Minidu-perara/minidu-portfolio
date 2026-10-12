@@ -89,7 +89,7 @@ export function CareerLog({ entries, sectionId }: { entries: LogEntry[]; section
   return (
     <div
       ref={rootRef}
-      className="group/log overflow-hidden rounded-2xl bg-[#070911]/90 shadow-[0_40px_120px_-40px_rgba(99,102,241,0.35)] ring-1 ring-white/10 backdrop-blur"
+      className="group/log overflow-hidden rounded-2xl bg-[#070911]/90 shadow-[0_40px_120px_-40px_rgba(99,102,241,0.35)] ring-1 ring-white/10 pointer-fine:backdrop-blur"
     >
       <div className="flex items-center justify-between gap-4 border-b border-white/8 px-4 py-3">
         <span className="flex items-center gap-3">

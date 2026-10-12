@@ -6,45 +6,33 @@ import { hasFinePointer, prefersReducedMotion } from "./media";
 // Mona Sans axes: weight 200–900, width 75–125.
 const REST = { weight: 700, width: 104 };
 const PEAK = { weight: 900, width: 125 };
-const SWEEP_MS = 2600;
-const SWEEP_EVERY_MS = 7000;
 
 /**
  * The hero name. Each letter swells in weight and width as the pointer nears
- * it and picks up the signal colour. On touch screens a light sweep passes
- * over it every few seconds instead.
+ * it and picks up the signal colour. Touch screens get the entrance only:
+ * re-laying out giant variable-font letters every frame is too heavy for a
+ * phone, and there is no pointer to follow.
  */
 export function KineticName({ lines, label, className = "" }: { lines: readonly string[]; label: string; className?: string }) {
   const ref = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     const root = ref.current;
-    if (!root || prefersReducedMotion()) return;
+    if (!root || prefersReducedMotion() || !hasFinePointer()) return;
     const chars = Array.from(root.querySelectorAll<HTMLElement>("[data-char]"));
     const values = chars.map(() => ({ weight: REST.weight, width: REST.width, glow: 0 }));
-    const fine = hasFinePointer();
     let pointerX = -1e5;
     let pointerY = -1e5;
     let frame = 0;
     let ready = false;
     let visible = true;
-    let sweepStart = -1;
-    let sweepTimer = 0;
 
-    const render = (now: number) => {
+    const render = () => {
       frame = 0;
       const fontSize = parseFloat(getComputedStyle(root).fontSize);
       const radius = fontSize * 1.2;
-      let x = pointerX;
-      let y = pointerY;
-      if (!fine) {
-        const progress = (now - sweepStart) / SWEEP_MS;
-        const box = root.getBoundingClientRect();
-        if (progress >= 0 && progress <= 1) {
-          x = box.left - radius + progress * (box.width + radius * 2);
-          y = box.top + box.height * progress;
-        }
-      }
+      const x = pointerX;
+      const y = pointerY;
 
       // Read every letter's position first, then write, to avoid layout thrash.
       const rects = chars.map((el) => el.getBoundingClientRect());
@@ -67,28 +55,18 @@ export function KineticName({ lines, label, className = "" }: { lines: readonly 
         el.style.setProperty("--k", value.glow.toFixed(3));
       });
 
-      const sweeping = !fine && now - sweepStart < SWEEP_MS;
-      if (visible && (settling || sweeping)) {
-        frame = requestAnimationFrame(render);
-      } else if (!fine && visible) {
-        sweepTimer = window.setTimeout(startSweep, SWEEP_EVERY_MS - SWEEP_MS);
-      }
+      if (visible && settling) frame = requestAnimationFrame(render);
     };
 
     const kick = () => {
       if (ready && visible && !frame) frame = requestAnimationFrame(render);
     };
-    function startSweep() {
-      sweepStart = performance.now();
-      kick();
-    }
 
     // Let the CSS entrance finish before taking over the letters.
     const entranceMs = 150 + chars.length * 45 + 1200;
     const readyTimer = window.setTimeout(() => {
       chars.forEach((el) => (el.style.animation = "none"));
       ready = true;
-      if (!fine) startSweep();
     }, entranceMs);
 
     const onMove = (event: PointerEvent) => {
@@ -102,17 +80,13 @@ export function KineticName({ lines, label, className = "" }: { lines: readonly 
     };
     const observer = new IntersectionObserver(([entry]) => {
       visible = Boolean(entry?.isIntersecting);
-      if (visible && !fine && ready) startSweep();
     });
 
     observer.observe(root);
-    if (fine) {
-      window.addEventListener("pointermove", onMove, { passive: true });
-      document.documentElement.addEventListener("pointerleave", onLeave);
-    }
+    window.addEventListener("pointermove", onMove, { passive: true });
+    document.documentElement.addEventListener("pointerleave", onLeave);
     return () => {
       window.clearTimeout(readyTimer);
-      window.clearTimeout(sweepTimer);
       cancelAnimationFrame(frame);
       observer.disconnect();
       window.removeEventListener("pointermove", onMove);

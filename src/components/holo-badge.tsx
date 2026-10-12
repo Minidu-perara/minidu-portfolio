@@ -98,10 +98,9 @@ export function HoloBadge({ photo, photoAlt, name, role, fields, serial }: Props
     const stage = stageRef.current;
     const card = cardRef.current;
     if (!stage || !card || prefersReducedMotion()) return;
-    if (!hasFinePointer()) {
-      card.dataset.idle = "true";
-      return;
-    }
+    // Touch screens keep the still, tilted pose from the stylesheet: an idle
+    // sway repaints the layered foil every frame, too much for a phone.
+    if (!hasFinePointer()) return;
     const onMove = (event: PointerEvent) => {
       const rect = card.getBoundingClientRect();
       const px = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
