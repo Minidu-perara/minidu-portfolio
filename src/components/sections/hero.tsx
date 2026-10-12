@@ -25,7 +25,7 @@ export function Hero() {
 
       <div className="shell flex flex-1 flex-col pt-24 pb-8 sm:pt-28">
         <div className="my-auto py-10">
-          <p className="inline-flex items-center gap-2.5 rounded-full bg-void/50 px-3.5 py-1.5 text-xs text-ink-2 ring-1 ring-white/10 backdrop-blur-md motion-safe:animate-fade-up">
+          <p className="inline-flex items-center gap-2.5 rounded-full bg-void/70 px-3.5 py-1.5 text-xs text-ink-2 ring-1 ring-white/10 pointer-fine:bg-void/50 pointer-fine:backdrop-blur-md motion-safe:animate-fade-up">
             <span className="relative flex size-2">
               <span className="absolute inline-flex size-full animate-pulse-ring rounded-full bg-ok motion-reduce:animate-none" />
               <span className="relative inline-flex size-2 rounded-full bg-ok" />

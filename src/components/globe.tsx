@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { clamp, prefersReducedMotion } from "@/components/fx/media";
+import { clamp, isTouchDevice, prefersReducedMotion } from "@/components/fx/media";
 import type { Place } from "@/content/profile";
 import { landDots, toUnitVector, type Vec3 } from "@/lib/land-mask";
 
@@ -39,6 +39,11 @@ export function Globe({ home, cities, className = "" }: { home: Place; cities: P
     if (!canvas || !ctx) return;
 
     const reduced = prefersReducedMotion();
+    // Phones: fewer pixels and a lower frame rate while the globe drifts on
+    // its own (a drag still gets every frame), and no drawing mid-scroll.
+    const touch = isTouchDevice();
+    let scrolling = false;
+    let scrollTimer = 0;
     const dots = landDots();
     const homeVector = toUnitVector(home.lat, home.lon);
     const arcs = cities.map((city, i) => ({
@@ -95,7 +100,7 @@ export function Globe({ home, cities, className = "" }: { home: Place; cities: P
     };
 
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2);
       const next = Math.round(canvas.clientWidth * dpr);
       if (next === size || next === 0) return;
       size = next;
@@ -240,6 +245,10 @@ export function Globe({ home, cities, className = "" }: { home: Place; cities: P
 
     const tick = (now: number) => {
       frame = 0;
+      if (touch && !dragging && now - last < 1000 / 24 - 2) {
+        if (running) frame = requestAnimationFrame(tick);
+        return;
+      }
       const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
       last = now;
       time += dt;
@@ -255,7 +264,7 @@ export function Globe({ home, cities, className = "" }: { home: Place; cities: P
       if (running) frame = requestAnimationFrame(tick);
     };
     const start = () => {
-      if (running) return;
+      if (running || scrolling) return;
       running = true;
       last = performance.now();
       frame = requestAnimationFrame(tick);
@@ -303,8 +312,20 @@ export function Globe({ home, cities, className = "" }: { home: Place; cities: P
       if (entry?.isIntersecting && !reduced) start();
       else stop();
     });
+    const onScroll = () => {
+      if (dragging) return;
+      scrolling = true;
+      stop();
+      window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        scrolling = false;
+        const rect = canvas.getBoundingClientRect();
+        if (!reduced && rect.bottom > 0 && rect.top < window.innerHeight) start();
+      }, 160);
+    };
     resize();
     draw();
+    if (touch) window.addEventListener("scroll", onScroll, { passive: true });
     resizeObserver.observe(canvas);
     visibility.observe(canvas);
     canvas.addEventListener("pointerdown", onDown);
@@ -316,6 +337,8 @@ export function Globe({ home, cities, className = "" }: { home: Place; cities: P
       stop();
       resizeObserver.disconnect();
       visibility.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(scrollTimer);
       canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerup", onUp);

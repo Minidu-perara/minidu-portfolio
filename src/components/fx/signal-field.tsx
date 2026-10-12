@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { hasFinePointer, prefersReducedMotion } from "./media";
+import { hasFinePointer, prefersReducedMotion, whenIdle } from "./media";
 
 /*
  * A living "telemetry surface": domain-warped noise drawn as glowing contour
@@ -145,177 +145,217 @@ export function SignalField({ className = "" }: { className?: string }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const attributes: WebGLContextAttributes = {
-      alpha: false,
-      antialias: false,
-      depth: false,
-      stencil: false,
-      powerPreference: "high-performance",
-    };
-    // A canvas can hold only one kind of context, so WebGL1 is tried only
-    // when WebGL2 is unavailable.
-    let gl: GL | null = canvas.getContext("webgl2", attributes);
-    let program: WebGLProgram | null = null;
-    if (gl) {
-      program = createProgram(gl, VERTEX_2, FRAGMENT_2);
-    } else {
-      gl = canvas.getContext("webgl", attributes);
-      if (gl && gl.getExtension("OES_standard_derivatives")) program = createProgram(gl, VERTEX_1, FRAGMENT_1);
-    }
-    if (!gl || !program) {
-      canvas.dataset.state = "unsupported";
-      return;
-    }
-    const context = gl;
-    const shaderProgram = program;
-
-    context.useProgram(shaderProgram);
-    const buffer = context.createBuffer();
-    context.bindBuffer(context.ARRAY_BUFFER, buffer);
-    context.bufferData(context.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), context.STATIC_DRAW);
-    const position = context.getAttribLocation(shaderProgram, "aPos");
-    context.enableVertexAttribArray(position);
-    context.vertexAttribPointer(position, 2, context.FLOAT, false, 0, 0);
-    const uniform = (name: string) => context.getUniformLocation(shaderProgram, name);
-    const uRes = uniform("uRes");
-    const uTime = uniform("uTime");
-    const uPointer = uniform("uPointer");
-    const uHover = uniform("uHover");
-    const uRipple = uniform("uRipple");
-
-    const reduced = prefersReducedMotion();
-    const fine = hasFinePointer();
-    const small = window.matchMedia("(max-width: 640px)").matches;
-    // Rendered below device resolution and upscaled: the field is soft by
-    // nature, and this keeps it smooth on laptops and phones alike.
-    let quality = small ? 0.55 : 0.8;
-    let time = 18; // a pleasing first frame
-    let ripple: [number, number, number] = [0, 0, -1];
-    // Pointer position as a fraction of the canvas (y up), eased toward target.
-    const pointer = { x: 0.7, y: 0.6, targetX: 0.7, targetY: 0.6, hover: 0, targetHover: fine ? 0 : 0.55 };
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const width = Math.max(1, Math.round(canvas.clientWidth * dpr * quality));
-      const height = Math.max(1, Math.round(canvas.clientHeight * dpr * quality));
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-        context.viewport(0, 0, width, height);
-      }
-    };
-
-    const draw = () => {
-      context.uniform2f(uRes, canvas.width, canvas.height);
-      context.uniform1f(uTime, time);
-      context.uniform2f(uPointer, pointer.x * canvas.width, pointer.y * canvas.height);
-      context.uniform1f(uHover, reduced ? 0 : pointer.hover);
-      context.uniform3f(uRipple, ripple[0] * canvas.width, ripple[1] * canvas.height, ripple[2]);
-      context.drawArrays(context.TRIANGLES, 0, 3);
-    };
-
-    let frame = 0;
-    let running = false;
-    let last = 0;
-    let slowFrames = 0;
-
-    const tick = (now: number) => {
-      frame = 0;
-      const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
-      last = now;
-      time += dt;
-
-      if (!fine) {
-        // Autopilot for touch screens: a slow Lissajous path.
-        pointer.targetX = 0.62 + 0.26 * Math.sin(time * 0.23);
-        pointer.targetY = 0.55 + 0.22 * Math.sin(time * 0.31 + 1.2);
-      }
-      const ease = 1 - Math.exp(-dt * 7);
-      pointer.x += (pointer.targetX - pointer.x) * ease;
-      pointer.y += (pointer.targetY - pointer.y) * ease;
-      pointer.hover += (pointer.targetHover - pointer.hover) * (1 - Math.exp(-dt * 4));
-
-      // If frames are consistently slow, render fewer pixels.
-      slowFrames = dt > 0.024 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
-      if (slowFrames > 45 && quality > 0.35) {
-        quality *= 0.8;
-        slowFrames = 0;
-        resize();
-      }
-
-      draw();
-      if (running) frame = requestAnimationFrame(tick);
-    };
-
-    const start = () => {
-      if (running || reduced) return;
-      running = true;
-      last = performance.now();
-      frame = requestAnimationFrame(tick);
-    };
-    const stop = () => {
-      running = false;
-      cancelAnimationFrame(frame);
-      frame = 0;
-    };
-
-    resize();
-    draw();
-    canvas.dataset.state = "ready";
-
-    const onPointerMove = (event: PointerEvent) => {
-      if (!fine) return;
-      const rect = canvas.getBoundingClientRect();
-      const inside =
-        event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
-      pointer.targetHover = inside ? 1 : 0;
-      if (inside) {
-        pointer.targetX = (event.clientX - rect.left) / rect.width;
-        pointer.targetY = 1 - (event.clientY - rect.top) / rect.height;
-      }
-    };
-    const onPointerDown = (event: PointerEvent) => {
-      if (reduced) return;
-      const rect = canvas.getBoundingClientRect();
-      if (event.clientY < rect.top || event.clientY > rect.bottom) return;
-      ripple = [(event.clientX - rect.left) / rect.width, 1 - (event.clientY - rect.top) / rect.height, time];
-    };
-    const resizeObserver = new ResizeObserver(() => {
-      resize();
-      if (!running) draw();
+    // Compiling the shader can block a phone for a moment, so wait until the
+    // page is idle. The canvas fades in once it is ready, so nothing pops.
+    let teardown: (() => void) | undefined;
+    const cancel = whenIdle(() => {
+      teardown = mountField(canvas);
     });
-    const visibility = new IntersectionObserver(([entry]) => (entry?.isIntersecting ? start() : stop()));
-    // Pause in background tabs; resume on return if the hero is on screen.
-    const onVisibilityChange = () => {
-      if (document.hidden) return stop();
-      const rect = canvas.getBoundingClientRect();
-      if (rect.bottom > 0 && rect.top < window.innerHeight) start();
-    };
-    const onContextLost = (event: Event) => {
-      event.preventDefault();
-      stop();
-      canvas.dataset.state = "unsupported";
-    };
-
-    resizeObserver.observe(canvas);
-    visibility.observe(canvas);
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    window.addEventListener("pointerdown", onPointerDown, { passive: true });
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    canvas.addEventListener("webglcontextlost", onContextLost);
-
     return () => {
-      stop();
-      resizeObserver.disconnect();
-      visibility.disconnect();
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      canvas.removeEventListener("webglcontextlost", onContextLost);
-      context.getExtension("WEBGL_lose_context")?.loseContext();
+      cancel();
+      teardown?.();
     };
   }, []);
 
   return <canvas ref={canvasRef} aria-hidden className={className} />;
+}
+
+/** Touch devices draw at most this often; the field moves slowly, so 30 fps reads as smooth. */
+const TOUCH_FRAME_MS = 1000 / 30 - 2;
+
+function mountField(canvas: HTMLCanvasElement): (() => void) | undefined {
+  const attributes: WebGLContextAttributes = {
+    alpha: false,
+    antialias: false,
+    depth: false,
+    stencil: false,
+    powerPreference: "high-performance",
+  };
+  // A canvas can hold only one kind of context, so WebGL1 is tried only
+  // when WebGL2 is unavailable.
+  let gl: GL | null = canvas.getContext("webgl2", attributes);
+  let program: WebGLProgram | null = null;
+  if (gl) {
+    program = createProgram(gl, VERTEX_2, FRAGMENT_2);
+  } else {
+    gl = canvas.getContext("webgl", attributes);
+    if (gl && gl.getExtension("OES_standard_derivatives")) program = createProgram(gl, VERTEX_1, FRAGMENT_1);
+  }
+  if (!gl || !program) {
+    canvas.dataset.state = "unsupported";
+    return;
+  }
+  const context = gl;
+  const shaderProgram = program;
+
+  context.useProgram(shaderProgram);
+  const buffer = context.createBuffer();
+  context.bindBuffer(context.ARRAY_BUFFER, buffer);
+  context.bufferData(context.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), context.STATIC_DRAW);
+  const position = context.getAttribLocation(shaderProgram, "aPos");
+  context.enableVertexAttribArray(position);
+  context.vertexAttribPointer(position, 2, context.FLOAT, false, 0, 0);
+  const uniform = (name: string) => context.getUniformLocation(shaderProgram, name);
+  const uRes = uniform("uRes");
+  const uTime = uniform("uTime");
+  const uPointer = uniform("uPointer");
+  const uHover = uniform("uHover");
+  const uRipple = uniform("uRipple");
+
+  const reduced = prefersReducedMotion();
+  const fine = hasFinePointer();
+  const touch = !fine;
+  const small = window.matchMedia("(max-width: 640px)").matches;
+  // Rendered below device resolution and upscaled: the field is soft by
+  // nature, and this keeps it smooth on laptops and phones alike. Phone GPUs
+  // get far fewer pixels.
+  let quality = touch ? 0.4 : small ? 0.55 : 0.8;
+  let time = 18; // a pleasing first frame
+  let ripple: [number, number, number] = [0, 0, -1];
+  // Pointer position as a fraction of the canvas (y up), eased toward target.
+  const pointer = { x: 0.7, y: 0.6, targetX: 0.7, targetY: 0.6, hover: 0, targetHover: fine ? 0 : 0.55 };
+
+  const resize = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const width = Math.max(1, Math.round(canvas.clientWidth * dpr * quality));
+    const height = Math.max(1, Math.round(canvas.clientHeight * dpr * quality));
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width;
+      canvas.height = height;
+      context.viewport(0, 0, width, height);
+    }
+  };
+
+  const draw = () => {
+    context.uniform2f(uRes, canvas.width, canvas.height);
+    context.uniform1f(uTime, time);
+    context.uniform2f(uPointer, pointer.x * canvas.width, pointer.y * canvas.height);
+    context.uniform1f(uHover, reduced ? 0 : pointer.hover);
+    context.uniform3f(uRipple, ripple[0] * canvas.width, ripple[1] * canvas.height, ripple[2]);
+    context.drawArrays(context.TRIANGLES, 0, 3);
+  };
+
+  let frame = 0;
+  let running = false;
+  let last = 0;
+  let slowFrames = 0;
+  let scrolling = false;
+  let scrollTimer = 0;
+
+  const tick = (now: number) => {
+    frame = 0;
+    if (touch && now - last < TOUCH_FRAME_MS) {
+      if (running) frame = requestAnimationFrame(tick);
+      return;
+    }
+    const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+    last = now;
+    time += dt;
+
+    if (!fine) {
+      // Autopilot for touch screens: a slow Lissajous path.
+      pointer.targetX = 0.62 + 0.26 * Math.sin(time * 0.23);
+      pointer.targetY = 0.55 + 0.22 * Math.sin(time * 0.31 + 1.2);
+    }
+    const ease = 1 - Math.exp(-dt * 7);
+    pointer.x += (pointer.targetX - pointer.x) * ease;
+    pointer.y += (pointer.targetY - pointer.y) * ease;
+    pointer.hover += (pointer.targetHover - pointer.hover) * (1 - Math.exp(-dt * 4));
+
+    // If frames are consistently slow, render fewer pixels.
+    slowFrames = dt > (touch ? 0.045 : 0.024) ? slowFrames + 1 : Math.max(0, slowFrames - 1);
+    if (slowFrames > 45 && quality > 0.35) {
+      quality *= 0.8;
+      slowFrames = 0;
+      resize();
+    }
+
+    draw();
+    if (running) frame = requestAnimationFrame(tick);
+  };
+
+  const start = () => {
+    if (running || reduced || scrolling) return;
+    running = true;
+    last = performance.now();
+    frame = requestAnimationFrame(tick);
+  };
+  const stop = () => {
+    running = false;
+    cancelAnimationFrame(frame);
+    frame = 0;
+  };
+
+  resize();
+  draw();
+  canvas.dataset.state = "ready";
+
+  const onPointerMove = (event: PointerEvent) => {
+    if (!fine) return;
+    const rect = canvas.getBoundingClientRect();
+    const inside =
+      event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+    pointer.targetHover = inside ? 1 : 0;
+    if (inside) {
+      pointer.targetX = (event.clientX - rect.left) / rect.width;
+      pointer.targetY = 1 - (event.clientY - rect.top) / rect.height;
+    }
+  };
+  const onPointerDown = (event: PointerEvent) => {
+    if (reduced) return;
+    const rect = canvas.getBoundingClientRect();
+    if (event.clientY < rect.top || event.clientY > rect.bottom) return;
+    ripple = [(event.clientX - rect.left) / rect.width, 1 - (event.clientY - rect.top) / rect.height, time];
+  };
+  const resizeObserver = new ResizeObserver(() => {
+    resize();
+    if (!running) draw();
+  });
+  const visibility = new IntersectionObserver(([entry]) => (entry?.isIntersecting ? start() : stop()));
+  const startIfOnScreen = () => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.bottom > 0 && rect.top < window.innerHeight) start();
+  };
+  // Pause in background tabs; resume on return if the hero is on screen.
+  const onVisibilityChange = () => {
+    if (document.hidden) return stop();
+    startIfOnScreen();
+  };
+  // On phones, hold the field still while the page scrolls so the GPU and
+  // main thread go to scrolling; it picks up again once scrolling stops.
+  const onScroll = () => {
+    scrolling = true;
+    stop();
+    window.clearTimeout(scrollTimer);
+    scrollTimer = window.setTimeout(() => {
+      scrolling = false;
+      if (!document.hidden) startIfOnScreen();
+    }, 160);
+  };
+  const onContextLost = (event: Event) => {
+    event.preventDefault();
+    stop();
+    canvas.dataset.state = "unsupported";
+  };
+
+  resizeObserver.observe(canvas);
+  visibility.observe(canvas);
+  window.addEventListener("pointermove", onPointerMove, { passive: true });
+  window.addEventListener("pointerdown", onPointerDown, { passive: true });
+  document.addEventListener("visibilitychange", onVisibilityChange);
+  if (touch) window.addEventListener("scroll", onScroll, { passive: true });
+  canvas.addEventListener("webglcontextlost", onContextLost);
+
+  return () => {
+    stop();
+    resizeObserver.disconnect();
+    visibility.disconnect();
+    window.removeEventListener("pointermove", onPointerMove);
+    window.removeEventListener("pointerdown", onPointerDown);
+    document.removeEventListener("visibilitychange", onVisibilityChange);
+    window.removeEventListener("scroll", onScroll);
+    window.clearTimeout(scrollTimer);
+    canvas.removeEventListener("webglcontextlost", onContextLost);
+    context.getExtension("WEBGL_lose_context")?.loseContext();
+  };
 }

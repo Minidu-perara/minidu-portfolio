@@ -137,7 +137,7 @@ export function SiteNav() {
           {/* Phones: compact bar */}
           <div
             className={`flex w-full items-center justify-between rounded-full p-1.5 transition-[background-color,box-shadow] duration-300 md:hidden ${
-              scrolled ? "bg-void/70 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.7)] ring-1 ring-white/10 backdrop-blur-xl" : ""
+              scrolled ? "bg-void/90 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.7)] ring-1 ring-white/10" : ""
             }`}
           >
             <Link href="/#top" aria-label="Back to top" className={monogram}>
@@ -156,7 +156,7 @@ export function SiteNav() {
         ref={dialogRef}
         aria-label="Menu"
         onClose={() => setMenuOpen(false)}
-        className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto bg-void/95 p-0 text-ink backdrop-blur-xl backdrop:bg-transparent open:flex open:flex-col"
+        className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto bg-void/[0.97] p-0 text-ink backdrop:bg-transparent open:flex open:flex-col"
       >
         <div className="shell flex items-center justify-between pt-[calc(env(safe-area-inset-top,0px)+0.75rem)] pb-3">
           <span className={monogram}>MP</span>
