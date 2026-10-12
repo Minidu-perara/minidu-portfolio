@@ -9,11 +9,13 @@ export function ServiceSection({
   id,
   eyebrow,
   title,
+  intro,
   children,
 }: {
   id: string;
   eyebrow: string;
   title: string;
+  intro?: string;
   children: ReactNode;
 }) {
   return (
@@ -27,6 +29,7 @@ export function ServiceSection({
           <h2 id={`${id}-heading`} className="display-2 mt-4 text-[clamp(1.9rem,5vw,3.4rem)]">
             {title}
           </h2>
+          {intro && <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-2">{intro}</p>}
         </header>
       </Reveal>
       {children}

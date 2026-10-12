@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { FiArrowDown } from "react-icons/fi";
 import { WhatsAppButton } from "@/components/services/whatsapp-button";
 import { profile, services } from "@/content/profile";
 
@@ -35,7 +36,14 @@ export function ServicesHero() {
         </figure>
 
         <div>
-          <p className="label-mono text-sun motion-safe:animate-fade-up motion-safe:[animation-delay:80ms]">{hero.eyebrow}</p>
+          <p className="inline-flex items-center gap-2.5 rounded-full bg-ok/10 px-3.5 py-1.5 text-sm font-medium text-ok ring-1 ring-ok/25 motion-safe:animate-fade-up">
+            <span aria-hidden className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-pulse-ring rounded-full bg-ok motion-reduce:animate-none" />
+              <span className="relative inline-flex size-2 rounded-full bg-ok" />
+            </span>
+            {hero.status}
+          </p>
+          <p className="label-mono mt-6 text-sun motion-safe:animate-fade-up motion-safe:[animation-delay:80ms]">{hero.eyebrow}</p>
           <h1
             id="services-heading"
             className="display-2 mt-5 text-[clamp(2.9rem,12.5vw,6.25rem)] leading-[0.98] font-extrabold motion-safe:animate-fade-up motion-safe:[animation-delay:160ms]"
@@ -46,8 +54,15 @@ export function ServicesHero() {
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-2 sm:text-xl motion-safe:animate-fade-up motion-safe:[animation-delay:320ms]">
             {hero.text}
           </p>
-          <div className="mt-9 motion-safe:animate-fade-up motion-safe:[animation-delay:400ms]">
+          <div className="mt-9 flex flex-col gap-3 motion-safe:animate-fade-up motion-safe:[animation-delay:400ms] sm:flex-row sm:items-center">
             <WhatsAppButton size="lg" className="w-full sm:w-auto" />
+            <a
+              href="#build"
+              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full px-6 text-base font-semibold text-ink ring-1 ring-white/15 transition-colors ring-inset hover:bg-white/[0.06] hover:ring-white/30"
+            >
+              {hero.secondary}
+              <FiArrowDown aria-hidden className="size-4" />
+            </a>
           </div>
         </div>
       </div>
