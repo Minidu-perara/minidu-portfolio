@@ -38,12 +38,12 @@ export function Footer() {
             {profile.name}
           </text>
         </svg>
-        <div className="mt-12 flex flex-col gap-4 text-sm text-ink-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-4 text-sm text-ink-2 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {profile.name} · {profile.home.name}, Sri Lanka
           </p>
           <p>Built with Next.js, WebGL and canvas</p>
-          <a href="#top" className={textLink}>
+          <a href="#top" className={`${textLink} min-h-11`}>
             Back to top
             <FiArrowUp aria-hidden className="size-4" />
           </a>

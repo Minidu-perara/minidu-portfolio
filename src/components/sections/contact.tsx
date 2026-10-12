@@ -1,4 +1,5 @@
-import { FiDownload, FiMail } from "react-icons/fi";
+import Link from "next/link";
+import { FiArrowRight, FiDownload, FiMail } from "react-icons/fi";
 import { CopyEmailButton } from "@/components/copy-email-button";
 import { Magnetic } from "@/components/fx/magnetic";
 import { Reveal } from "@/components/fx/reveal";
@@ -6,8 +7,8 @@ import { Globe } from "@/components/globe";
 import { TimezoneOverlap } from "@/components/live/timezone-overlap";
 import { SocialLinks } from "@/components/social-links";
 import { Section } from "@/components/ui/section";
-import { buttonGhost, buttonPrimary } from "@/components/ui/styles";
-import { profile, remoteCities, sectionCopy } from "@/content/profile";
+import { buttonGhost, buttonPrimary, textLink } from "@/components/ui/styles";
+import { profile, remoteCities, sectionCopy, servicesNav } from "@/content/profile";
 
 export function ContactSection() {
   return (
@@ -37,6 +38,13 @@ export function ContactSection() {
           <div className="mt-6">
             <SocialLinks />
           </div>
+          <p className="mt-6 text-sm text-ink-2">
+            Also available for freelance web projects{" "}
+            <Link href={servicesNav.href} className={textLink}>
+              {servicesNav.label}
+              <FiArrowRight aria-hidden className="size-3.5" />
+            </Link>
+          </p>
           <div className="mt-12">
             <TimezoneOverlap home={profile.home} cities={remoteCities} />
           </div>

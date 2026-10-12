@@ -21,6 +21,10 @@
   --color-warn: #fbbf24;
   --color-alert: #fb7185;
   --color-hairline: rgb(148 163 184 / 0.12);
+  /* /services only: the flyer's warm accent, and WhatsApp's brand green for
+     its buttons so owners recognise them at a glance. */
+  --color-sun: #fbbf24;
+  --color-whatsapp: #25d366;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 

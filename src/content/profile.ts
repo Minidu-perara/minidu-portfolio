@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import portraitPhoto from "@/assets/portrait.jpg";
 import profilePhoto from "@/assets/profile.jpg";
 import sysenactTeamPhoto from "@/assets/sysenact-team.jpg";
 
@@ -243,3 +244,100 @@ export const navItems = [
   { id: "education", label: "Education" },
   { id: "contact", label: "Contact" },
 ] as const;
+
+/** A separate page linked after the sections, for freelance clients. */
+export const servicesNav = { href: "/services", id: "services", label: "Services" } as const;
+
+/** A service on the /services page; `icon` picks a stroke icon in the component. */
+export type ServiceOffer = { title: string; text: string; icon: "store" | "stock" | "dealer" | "admin" };
+
+const whatsappNumber = "94773319179";
+const whatsappMessage = "Hi Minidu, I saw your website and I'd like to talk about a website for my business.";
+
+/**
+ * Copy for /services, written for small business owners rather than
+ * recruiters: plain words, no jargon, and no claims beyond the CV.
+ */
+export const services = {
+  seo: {
+    title: "Websites & Online Stores for Sri Lankan Businesses · Minidu Perera",
+    description: "Online stores, stock management and dealer ordering for Sri Lankan businesses, with support after launch.",
+  },
+  photo: {
+    src: portraitPhoto,
+    alt: "Minidu Perera, smiling, in a white shirt against a plain wall",
+  } satisfies Photo,
+  hero: {
+    eyebrow: "Websites & online stores",
+    title: "Take your business online.",
+    text: "Online stores, stock management and dealer ordering, built for Sri Lankan businesses.",
+  },
+  whatsapp: {
+    href: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
+    tel: `tel:+${whatsappNumber}`,
+    display: "+94 77 331 9179",
+    label: "Chat on WhatsApp",
+  },
+  build: {
+    eyebrow: "What I build",
+    title: "Everything you need to sell online.",
+    offers: [
+      {
+        title: "Online store",
+        text: "Your full range with photos, specs and prices. Customers pay by card or cash on delivery.",
+        icon: "store",
+      },
+      {
+        title: "Stock management",
+        text: "Stock in and out, low-stock alerts and a full history of every item.",
+        icon: "stock",
+      },
+      {
+        title: "Dealer ordering",
+        text: "A login for the shops you supply, with trade prices and bulk orders. No more phone calls.",
+        icon: "dealer",
+      },
+      {
+        title: "Easy admin panel",
+        text: "Your team updates products and prices themselves. No coding needed.",
+        icon: "admin",
+      },
+    ] satisfies ServiceOffer[],
+  },
+  support: {
+    title: "Support after launch",
+    text: "I look after your site once it’s live, on a simple monthly plan.",
+    items: ["Hosting", "Backups", "Fixes", "Small updates"],
+  },
+  steps: {
+    eyebrow: "How we start",
+    title: "Start free. Pay as it works.",
+    items: [
+      { title: "Free chat", text: "I learn how you sell today." },
+      { title: "Free sample", text: "A homepage with your products." },
+      { title: "Build in phases", text: "Pay for each stage once it’s working." },
+      { title: "Launch & support", text: "Hosting, fixes and updates." },
+    ],
+  },
+  demo: {
+    /** Leave empty to hide the demo section entirely. */
+    url: "",
+    title: "See a demo store",
+    text: "Click through a working store, from the product list to checkout.",
+  },
+  why: {
+    eyebrow: "Why work with me",
+    title: "Who you’ll be working with.",
+    facts: [
+      "BSc (Hons) Information Technology, SLIIT",
+      "Built the loan-disbursement solution for a live bank (SMIB) during my internship at SysEnact",
+      "React · Next.js · Node.js · MongoDB",
+    ],
+  },
+  contact: {
+    eyebrow: "Contact",
+    title: "Let’s talk about your business.",
+    text: "The first chat and a sample homepage are free. Send a message on WhatsApp to get started.",
+    badge: "Free chat + free sample",
+  },
+} as const;
