@@ -3,7 +3,8 @@
 const base =
   "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-[background-color,box-shadow,color] duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal";
 
-export const buttonPrimary = `${base} bg-ink text-void shadow-[0_0_0_1px_rgba(255,255,255,0.2),0_10px_36px_-8px_rgba(165,180,252,0.6)] hover:bg-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.45),0_12px_48px_-6px_rgba(165,180,252,0.85)]`;
+/** Amber means "act" across the site: the main button on every page. */
+export const buttonPrimary = `${base} bg-sun text-void shadow-[0_0_0_1px_rgba(251,191,36,0.35),0_10px_36px_-10px_rgba(251,191,36,0.55)] hover:bg-[#fcd34d] hover:shadow-[0_0_0_1px_rgba(252,211,77,0.6),0_12px_48px_-8px_rgba(251,191,36,0.75)]`;
 
 export const buttonGhost = `${base} bg-white/[0.04] text-ink ring-1 ring-white/15 ring-inset pointer-fine:backdrop-blur-md hover:bg-white/[0.09] hover:ring-white/30`;
 

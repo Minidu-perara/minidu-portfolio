@@ -2,7 +2,7 @@ import { FiDownload, FiMail } from "react-icons/fi";
 import { DecodeText } from "@/components/fx/decode-text";
 import { KineticName } from "@/components/fx/kinetic-name";
 import { Magnetic } from "@/components/fx/magnetic";
-import { SignalField } from "@/components/fx/signal-field";
+import { NeuralField } from "@/components/fx/neural-field";
 import { LocalTime } from "@/components/live/local-time";
 import { buttonGhost, buttonPrimary } from "@/components/ui/styles";
 import { profile } from "@/content/profile";
@@ -17,9 +17,9 @@ export function Hero() {
   return (
     <section id="top" aria-label="Introduction" className="relative isolate flex min-h-[100svh] flex-col overflow-clip">
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(80rem_50rem_at_85%_5%,#11163d,transparent_65%)]">
-        <SignalField className="absolute inset-0 size-full opacity-0 transition-opacity duration-[2.2s] data-[state=ready]:opacity-100" />
+        <NeuralField tone="signal" className="absolute inset-0 size-full opacity-0 transition-opacity duration-[1.6s] data-[state=ready]:opacity-100" />
         {/* Keep the text side calm and legible. */}
-        <div className="absolute inset-0 bg-[radial-gradient(75rem_48rem_at_8%_92%,rgb(4_5_10/0.94),rgb(4_5_10/0.55)_45%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(75rem_48rem_at_8%_92%,rgb(6_10_29/0.9),rgb(6_10_29/0.45)_45%,transparent_70%)]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-void to-transparent" />
       </div>
 

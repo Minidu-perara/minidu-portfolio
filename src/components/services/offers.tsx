@@ -81,7 +81,6 @@ export function ServicesOffers() {
                   <article
                     aria-labelledby={`service-${category.id}`}
                     className={`surface spot group flex h-full flex-col gap-5 bg-navy/60 p-5 sm:p-6 ${glow}`}
-                    data-tone="sun"
                   >
                     <div className="flex items-start gap-4">
                       <span className={`grid size-12 shrink-0 place-items-center rounded-2xl ${tone} text-void transition-transform duration-500 ease-out-expo group-hover:-rotate-6`}>
@@ -102,7 +101,7 @@ export function ServicesOffers() {
                     <ul className={`grid gap-2 ${wide ? "sm:grid-cols-2 sm:gap-x-6" : ""}`}>
                       {category.items.map((item) => (
                         <li key={item} className="flex gap-2.5 text-[0.95rem] leading-snug text-ink">
-                          <FiCheck aria-hidden className="mt-0.5 size-4 shrink-0 text-sun" />
+                          <FiCheck aria-hidden className="mt-0.5 size-4 shrink-0 text-signal" />
                           {item}
                         </li>
                       ))}
@@ -129,10 +128,10 @@ export function ServicesOffers() {
       <Reveal threshold={0.25} className="mt-4">
         <section
           aria-labelledby="support-heading"
-          className="surface flex flex-col gap-6 p-5 ring-1 ring-sun/25 sm:p-8 lg:flex-row lg:items-center lg:justify-between"
+          className="surface flex flex-col gap-6 p-5 ring-1 ring-signal/20 sm:p-8 lg:flex-row lg:items-center lg:justify-between"
         >
           <div className="flex gap-4 sm:gap-5">
-            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-sun/12 text-sun ring-1 ring-sun/40">
+            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-signal/12 text-signal ring-1 ring-signal/40">
               <FiLifeBuoy aria-hidden className="size-6" />
             </span>
             <div>
@@ -145,7 +144,7 @@ export function ServicesOffers() {
           <ul className="flex flex-wrap gap-2 lg:justify-end">
             {support.items.map((item) => (
               <li key={item} className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.05] px-3.5 py-2 text-sm text-ink ring-1 ring-white/10">
-                <FiCheck aria-hidden className="size-4 text-sun" />
+                <FiCheck aria-hidden className="size-4 text-signal" />
                 {item}
               </li>
             ))}

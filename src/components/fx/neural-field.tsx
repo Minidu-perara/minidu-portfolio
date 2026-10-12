@@ -11,6 +11,16 @@ const MIN_STRENGTH = 0.22;
 /** Touch devices draw at most this often. */
 const TOUCH_FRAME_MS = 1000 / 30 - 2;
 
+/**
+ * What a signal looks like: the colour of its trail and halo, and its bright
+ * core. Indigo for the portfolio, amber on /services; the wiring is the same.
+ */
+const tones = {
+  signal: { glow: "129,140,248", core: "224,231,255" },
+  sun: { glow: "251,191,36", core: "255,236,179" },
+} as const;
+export type NeuralTone = keyof typeof tones;
+
 type Pulse = { from: number; to: number; start: number; duration: number; strength: number };
 
 /**
@@ -19,7 +29,7 @@ type Pulse = { from: number; to: number; start: number; duration: number; streng
  * each hop. Neurons near the pointer fire as it passes (a tap does the same
  * on phones), so the page seems to think about whatever you look at.
  */
-export function NeuralField({ className = "" }: { className?: string }) {
+export function NeuralField({ className = "", tone = "signal" }: { className?: string; tone?: NeuralTone }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -27,18 +37,18 @@ export function NeuralField({ className = "" }: { className?: string }) {
     if (!canvas) return;
     let teardown: (() => void) | undefined;
     const cancel = whenIdle(() => {
-      teardown = mountField(canvas);
+      teardown = mountField(canvas, tones[tone]);
     });
     return () => {
       cancel();
       teardown?.();
     };
-  }, []);
+  }, [tone]);
 
   return <canvas ref={canvasRef} aria-hidden className={className} />;
 }
 
-function mountField(canvas: HTMLCanvasElement): (() => void) | undefined {
+function mountField(canvas: HTMLCanvasElement, colors: (typeof tones)[NeuralTone]): (() => void) | undefined {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
   const reduced = prefersReducedMotion();
@@ -127,7 +137,7 @@ function mountField(canvas: HTMLCanvasElement): (() => void) | undefined {
       const [bx, by] = points[p.to]!;
       const head = t;
       const tail = Math.max(0, t - 0.28);
-      ctx.strokeStyle = `rgba(251,191,36,${(0.85 * p.strength).toFixed(3)})`;
+      ctx.strokeStyle = `rgba(${colors.glow},${(0.85 * p.strength).toFixed(3)})`;
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(ax + (bx - ax) * tail, ay + (by - ay) * tail);
@@ -135,11 +145,11 @@ function mountField(canvas: HTMLCanvasElement): (() => void) | undefined {
       ctx.stroke();
       const hx = ax + (bx - ax) * head;
       const hy = ay + (by - ay) * head;
-      ctx.fillStyle = `rgba(251,191,36,${(0.22 * p.strength).toFixed(3)})`;
+      ctx.fillStyle = `rgba(${colors.glow},${(0.22 * p.strength).toFixed(3)})`;
       ctx.beginPath();
       ctx.arc(hx, hy, 6, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillStyle = `rgba(255,236,179,${p.strength.toFixed(3)})`;
+      ctx.fillStyle = `rgba(${colors.core},${p.strength.toFixed(3)})`;
       ctx.beginPath();
       ctx.arc(hx, hy, 2.3, 0, Math.PI * 2);
       ctx.fill();
@@ -150,12 +160,12 @@ function mountField(canvas: HTMLCanvasElement): (() => void) | undefined {
       const [x, y] = points[i]!;
       const c = charge[i]!;
       if (c > 0.03) {
-        ctx.fillStyle = `rgba(251,191,36,${(c * 0.24).toFixed(3)})`;
+        ctx.fillStyle = `rgba(${colors.glow},${(c * 0.24).toFixed(3)})`;
         ctx.beginPath();
         ctx.arc(x, y, 5 + c * 9, 0, Math.PI * 2);
         ctx.fill();
       }
-      ctx.fillStyle = c > 0.03 ? `rgba(253,224,140,${(0.35 + c * 0.65).toFixed(3)})` : "rgba(199,210,254,0.32)";
+      ctx.fillStyle = c > 0.03 ? `rgba(${colors.core},${(0.35 + c * 0.65).toFixed(3)})` : "rgba(199,210,254,0.32)";
       ctx.beginPath();
       ctx.arc(x, y, 1.5 + c * 1.6, 0, Math.PI * 2);
       ctx.fill();

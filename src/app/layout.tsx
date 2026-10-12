@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#04050a",
+  themeColor: "#060a1d",
   colorScheme: "dark",
 };
 
@@ -44,7 +44,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${monaSans.variable} ${geistMono.variable}`}>
       <head>
         <noscript>
-          <style>{"[data-reveal]{opacity:1!important;translate:none!important;filter:none!important}"}</style>
+          <style>{"[data-reveal]{opacity:1!important;translate:none!important;filter:none!important}.rise-word>span{transform:none!important}"}</style>
         </noscript>
       </head>
       <body>
