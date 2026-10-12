@@ -12,7 +12,7 @@ export function ServicesHero() {
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(70rem_42rem_at_85%_0%,#11163d,transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(40rem_26rem_at_0%_100%,rgb(251_191_36/0.07),transparent_70%)]" />
-        <NeuralField className="absolute inset-0 size-full opacity-0 transition-opacity duration-[1.6s] data-[state=ready]:opacity-80 lg:data-[state=ready]:opacity-100" />
+        <NeuralField tone="sun" className="absolute inset-0 size-full opacity-0 transition-opacity duration-[1.6s] data-[state=ready]:opacity-80 lg:data-[state=ready]:opacity-100" />
         {/* Keep the words calm: the network fades out behind the text column. */}
         <div className="absolute inset-0 bg-[radial-gradient(52rem_36rem_at_18%_62%,rgb(7_12_34/0.8),rgb(7_12_34/0.35)_55%,transparent_80%)]" />
         <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-navy to-transparent" />
@@ -47,7 +47,7 @@ export function ServicesHero() {
             </span>
             {hero.status}
           </p>
-          <p className="label-mono mt-6 text-sun motion-safe:animate-fade-up motion-safe:[animation-delay:80ms]">{hero.eyebrow}</p>
+          <p className="label-mono mt-6 text-signal motion-safe:animate-fade-up motion-safe:[animation-delay:80ms]">{hero.eyebrow}</p>
           <h1
             id="services-heading"
             className="display-2 mt-5 text-[clamp(2.9rem,12.5vw,6.25rem)] leading-[0.98] font-extrabold"

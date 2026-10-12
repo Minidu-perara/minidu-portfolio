@@ -7,9 +7,11 @@
   --font-sans: var(--font-mona), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  /* Palette: a near-black "void" with one cool signal colour (indigo) and a
-     cyan highlight for telemetry. Green/amber/rose are status colours only. */
-  --color-void: #04050a;
+  /* Palette: a navy-black "void" shared by every page. Indigo (signal) is the
+     brand colour: labels, links, the hero network. Amber (sun) means "act":
+     main buttons and steps. Cyan highlights telemetry; green and rose are
+     status colours, and the /services grid borrows the rest per category. */
+  --color-void: #060a1d;
   --color-abyss: #0a0c15;
   --color-ink: #e9ebf3;
   --color-ink-2: #a4a9bd;
@@ -21,12 +23,12 @@
   --color-warn: #fbbf24;
   --color-alert: #fb7185;
   --color-hairline: rgb(148 163 184 / 0.12);
-  /* /services only: the flyer's warm accent, and WhatsApp's brand green for
-     its buttons so owners recognise them at a glance. */
+  /* Amber for actions, and WhatsApp's brand green for /services' WhatsApp
+     buttons so owners recognise them at a glance. */
   --color-sun: #fbbf24;
   --color-whatsapp: #25d366;
-  /* The flyer's deep navy for the /services page, and one more hue so each
-     service category can have its own colour. */
+  /* A warmer navy wash for the top of /services (from the flyer), and one
+     more hue so each service category can have its own colour. */
   --color-navy: #0b1433;
   --color-navy-deep: #070c22;
   --color-violet: #c4b5fd;
@@ -221,18 +223,6 @@
   .spot::after {
     z-index: -1;
     background: radial-gradient(32rem circle at var(--mx, 50%) var(--my, 50%), rgb(165 180 252 / 0.09), transparent 45%);
-  }
-  /* /services: the same spotlight in the page's warm accent. */
-  .spot[data-tone="sun"]::before {
-    background: radial-gradient(
-      22rem circle at var(--mx, 50%) var(--my, 50%),
-      rgb(251 191 36 / 0.7),
-      rgb(251 191 36 / 0.2) 30%,
-      transparent 62%
-    );
-  }
-  .spot[data-tone="sun"]::after {
-    background: radial-gradient(32rem circle at var(--mx, 50%) var(--my, 50%), rgb(251 191 36 / 0.07), transparent 45%);
   }
 
   /* Film grain over the whole page for depth. */
@@ -775,6 +765,63 @@
   @media (prefers-reduced-motion: reduce) {
     .svc-rule {
       animation: none;
+    }
+  }
+}
+
+/* Shared by both pages: section headings rise in word by word as their
+   Reveal shows, and a signal runs along each section label's line, like
+   the hero network's. */
+@layer components {
+  .rise-word {
+    display: inline-block;
+    overflow: clip;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+    vertical-align: top;
+  }
+  .rise-word > span {
+    display: inline-block;
+    transition: transform 0.9s var(--ease-out-expo);
+    transition-delay: calc(var(--w, 0) * 70ms + 80ms);
+  }
+  .signal-line {
+    position: relative;
+  }
+  .signal-line::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
+    border-radius: 9999px;
+    background: #e0e7ff;
+    box-shadow: 0 0 8px 2px rgb(129 140 248 / 0.8);
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal="hidden"] .rise-word > span {
+      transform: translateY(105%);
+      transition: none;
+    }
+    [data-reveal="shown"] .signal-line::after {
+      animation: signal-run 6s ease-in-out 0.5s infinite;
+    }
+  }
+  @keyframes signal-run {
+    0% {
+      transform: translateX(0);
+      opacity: 0;
+    }
+    4% {
+      opacity: 1;
+    }
+    20%,
+    100% {
+      transform: translateX(2rem);
+      opacity: 0;
     }
   }
 }

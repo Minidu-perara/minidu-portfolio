@@ -18,7 +18,7 @@ export function ServicesTicker() {
             className="flex shrink-0 items-center gap-6 text-[clamp(1.25rem,3.6vw,2.1rem)] leading-none font-bold whitespace-nowrap text-ink/80 [font-variation-settings:'wdth'_110]"
           >
             {item}
-            <span className="text-[0.6em] text-sun">✦</span>
+            <span className="text-[0.6em] text-signal">✦</span>
           </span>
         ))}
       </div>

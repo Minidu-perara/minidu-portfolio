@@ -27,7 +27,7 @@ export function ServicesContact() {
                 href={whatsapp.tel}
                 className="mt-1 inline-flex min-h-11 items-center gap-2.5 text-[clamp(1.6rem,7vw,2.4rem)] font-bold tracking-tight text-ink tabular-nums [font-variation-settings:'wdth'_108] hover:text-sun"
               >
-                <FiPhone aria-hidden className="size-[0.7em] text-sun" />
+                <FiPhone aria-hidden className="size-[0.7em] text-signal" />
                 {whatsapp.display}
               </a>
             </div>

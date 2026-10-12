@@ -30,8 +30,9 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
-      {/* The flyer's navy, deepening to the site's near-black by the footer. */}
-      <main id="main" className="flex-1 bg-linear-to-b from-navy via-navy-deep to-void">
+      {/* A warmer navy wash at the top (from the flyer), settling into the
+          site's shared background. */}
+      <main id="main" className="flex-1 bg-[linear-gradient(180deg,var(--color-navy),var(--color-void)_70rem)]">
         <ServicesHero />
         <ServicesTicker />
         <ServicesOffers />

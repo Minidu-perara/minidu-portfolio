@@ -12,7 +12,7 @@ export function ServicesWhy() {
         <ul className="grid max-w-3xl gap-5">
           {why.facts.map((fact) => (
             <li key={fact} className="flex gap-4 text-lg leading-snug text-ink sm:text-xl">
-              <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-sun/12 text-sun ring-1 ring-sun/40">
+              <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-signal/12 text-signal ring-1 ring-signal/40">
                 <FiCheck aria-hidden className="size-4" />
               </span>
               {fact}
