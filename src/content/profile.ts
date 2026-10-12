@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import portraitPhoto from "@/assets/portrait.jpg";
 import profilePhoto from "@/assets/profile.jpg";
 import sysenactTeamPhoto from "@/assets/sysenact-team.jpg";
 
@@ -243,3 +244,168 @@ export const navItems = [
   { id: "education", label: "Education" },
   { id: "contact", label: "Contact" },
 ] as const;
+
+/** A separate page linked after the sections, for freelance clients. */
+export const servicesNav = { href: "/services", id: "services", label: "Services" } as const;
+
+/**
+ * A group of services on /services. `id` also picks the tile's icon,
+ * illustration and place in the grid, so keep ids stable.
+ */
+export type ServiceCategory = {
+  id: "web" | "systems" | "ai" | "cloud" | "custom" | "devices";
+  title: string;
+  text: string;
+  items: string[];
+};
+
+const whatsappNumber = "94773319179";
+const whatsappMessage = "Hi Minidu, I saw your website and I'd like to talk about a website for my business.";
+
+/** A WhatsApp chat link with a message already typed, optionally about one service. */
+export const whatsappLink = (topic?: string) =>
+  `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+    topic ? `Hi Minidu, I saw your website and I'd like to talk about: ${topic}.` : whatsappMessage,
+  )}`;
+
+/**
+ * Copy for /services, written for small business owners rather than
+ * recruiters: plain words, no jargon, and no claims beyond the CV.
+ */
+export const services = {
+  seo: {
+    title: "Websites & Online Stores for Sri Lankan Businesses · Minidu Perera",
+    description:
+      "Websites, online stores, stock and dealer systems, AI assistants and cloud setup for Sri Lankan businesses, with support after launch.",
+  },
+  photo: {
+    src: portraitPhoto,
+    alt: "Minidu Perera, smiling, in a white shirt against a plain wall",
+  } satisfies Photo,
+  hero: {
+    eyebrow: "Web, software & AI services",
+    status: "Taking on new projects",
+    title: "Take your business online.",
+    text: "Websites, online stores and the systems behind them, built for Sri Lankan businesses.",
+    secondary: "See what I build",
+  },
+  whatsapp: {
+    href: whatsappLink(),
+    tel: `tel:+${whatsappNumber}`,
+    display: "+94 77 331 9179",
+    label: "Chat on WhatsApp",
+  },
+  build: {
+    eyebrow: "What I build",
+    title: "Everything your business needs online.",
+    intro: "Pick one, or combine a few. Each one is built around how you already sell.",
+    ask: "WhatsApp me about this",
+    categories: [
+      {
+        id: "web",
+        title: "Websites & online stores",
+        text: "Your full range with photos, specs and prices. Customers pay by card or cash on delivery.",
+        items: ["Business websites", "Online stores", "Product catalogues", "Card payment or cash on delivery", "Fast on phones"],
+      },
+      {
+        id: "systems",
+        title: "Stock & business systems",
+        text: "Replace the notebook and the spreadsheet with one system your whole team can use.",
+        items: [
+          "Stock in and out, with low-stock alerts",
+          "Dealer ordering with trade prices",
+          "Easy admin panel, no coding needed",
+          "Bookings and appointments",
+          "Invoices and sales reports",
+          "Staff logins for each role",
+        ],
+      },
+      {
+        id: "ai",
+        title: "AI for your business",
+        text: "Put the newest AI tools to work on the questions and paperwork that eat your day.",
+        items: ["AI assistant that answers customers", "Answers from your own product list", "Automated reports and data entry", "AI added to the system you have"],
+      },
+      {
+        id: "devices",
+        title: "Smart devices & IoT",
+        text: "Connect sensors and devices to a live dashboard you can check from your phone.",
+        items: ["Live device dashboards", "Alerts when something needs attention", "Prototypes for smart products"],
+      },
+      {
+        id: "cloud",
+        title: "Hosting, cloud & servers",
+        text: "Your site and systems set up properly, kept online and backed up.",
+        items: ["Domain and business email", "Hosting and backups", "Microsoft Azure setup", "Linux servers"],
+      },
+      {
+        id: "custom",
+        title: "Custom software & fixes",
+        text: "Something that does not fit a box, or an existing site that needs work.",
+        items: ["Software built for how you work", "Connect payments, SMS and couriers", "Fix or speed up an existing site", "New features on your current system"],
+      },
+    ] satisfies ServiceCategory[],
+  },
+  support: {
+    title: "Support after launch",
+    text: "I look after your site once it’s live, on a simple monthly plan.",
+    items: ["Hosting", "Backups", "Fixes", "Small updates"],
+  },
+  steps: {
+    eyebrow: "How we start",
+    title: "Start free. Pay as it works.",
+    items: [
+      { title: "Free chat", text: "I learn how you sell today." },
+      { title: "Free sample", text: "A homepage with your products." },
+      { title: "Build in phases", text: "Pay for each stage once it’s working." },
+      { title: "Launch & support", text: "Hosting, fixes and updates." },
+    ],
+  },
+  demo: {
+    /** Leave empty to hide the demo section entirely. */
+    url: "",
+    title: "See a demo store",
+    text: "Click through a working store, from the product list to checkout.",
+  },
+  why: {
+    eyebrow: "Why work with me",
+    title: "Who you’ll be working with.",
+    facts: [
+      "BSc (Hons) Information Technology, SLIIT",
+      "Built the loan-disbursement solution for a live bank (SMIB) during my internship at SysEnact",
+      "React · Next.js · Node.js · MongoDB",
+    ],
+  },
+  faq: {
+    eyebrow: "Questions",
+    title: "Things owners usually ask.",
+    items: [
+      {
+        q: "How much will it cost?",
+        a: "It depends on what you need. After a free chat I send a clear quote, split into stages, and you pay for each stage once it is working.",
+      },
+      {
+        q: "I’m not technical. Is that a problem?",
+        a: "Not at all. I explain everything in plain words, and the admin panel is built so your team can change products and prices without any coding.",
+      },
+      {
+        q: "Do I need to buy hosting or a domain first?",
+        a: "No. I can set up your domain, hosting and business email for you, or work with what you already have.",
+      },
+      {
+        q: "Can you work on my existing website or system?",
+        a: "Yes. I can fix it, speed it up, add features, or connect it to the tools you already use.",
+      },
+      {
+        q: "What happens after launch?",
+        a: "On a simple monthly plan I look after hosting, backups, fixes and small updates, so you can get on with running the business.",
+      },
+    ],
+  },
+  contact: {
+    eyebrow: "Contact",
+    title: "Let’s talk about your business.",
+    text: "The first chat and a sample homepage are free. Send a message on WhatsApp to get started.",
+    badge: "Free chat + free sample",
+  },
+} as const;

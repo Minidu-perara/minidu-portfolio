@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FiDownload, FiMail, FiMenu, FiX } from "react-icons/fi";
 import { SocialLinks } from "@/components/social-links";
 import { iconButton } from "@/components/ui/styles";
-import { navItems, profile } from "@/content/profile";
+import { navItems, profile, servicesNav } from "@/content/profile";
 
 /** A section becomes current once its top passes this fraction of the viewport. */
 const ACTIVATION_LINE = 0.35;
@@ -26,9 +27,12 @@ export function SiteNav() {
   const markerRef = useRef<HTMLSpanElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const pathname = usePathname();
 
-  // Scroll progress, scrolled state and the current section.
+  // Scroll progress, scrolled state and the current section. Off the home
+  // page there are no sections to track; the current page is the active item.
   useEffect(() => {
+    const onHome = pathname === "/";
     let frame = 0;
     const update = () => {
       frame = 0;
@@ -36,10 +40,10 @@ export function SiteNav() {
       const y = window.scrollY;
       if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
       setScrolled(y > 24);
-      let current: string | null = null;
-      if (max > 0 && y >= max - 2) {
+      let current: string | null = pathname === servicesNav.href ? servicesNav.id : null;
+      if (onHome && max > 0 && y >= max - 2) {
         current = navItems.at(-1)?.id ?? null;
-      } else {
+      } else if (onHome) {
         const line = window.innerHeight * ACTIVATION_LINE;
         for (const item of navItems) {
           const top = document.getElementById(item.id)?.getBoundingClientRect().top;
@@ -59,7 +63,7 @@ export function SiteNav() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, []);
+  }, [pathname]);
 
   // Slide the marker under the current link.
   useEffect(() => {
@@ -86,7 +90,7 @@ export function SiteNav() {
     if (!menuOpen && dialog.open) dialog.close();
   }, [menuOpen]);
 
-  const activeLabel = navItems.find((item) => item.id === active)?.label;
+  const activeLabel = [...navItems, servicesNav].find((item) => item.id === active)?.label;
 
   return (
     <>
@@ -122,6 +126,18 @@ export function SiteNav() {
                     </a>
                   </li>
                 ))}
+                <li>
+                  <Link
+                    href={servicesNav.href}
+                    data-nav={servicesNav.id}
+                    aria-current={active === servicesNav.id ? "page" : undefined}
+                    className={`block rounded-full px-3.5 py-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal ${
+                      active === servicesNav.id ? "text-ink" : "text-ink-2 hover:text-ink"
+                    }`}
+                  >
+                    {servicesNav.label}
+                  </Link>
+                </li>
               </ul>
             </div>
             <a
@@ -178,6 +194,17 @@ export function SiteNav() {
               </a>
             </li>
           ))}
+          <li className="motion-safe:animate-fade-up" style={{ animationDelay: `${60 + navItems.length * 55}ms` }}>
+            <Link
+              href={servicesNav.href}
+              onClick={() => setMenuOpen(false)}
+              aria-current={active === servicesNav.id ? "page" : undefined}
+              className="flex items-baseline justify-between border-b border-white/8 py-4 text-[2.1rem] leading-none font-bold tracking-tight [font-variation-settings:'wdth'_110]"
+            >
+              {servicesNav.label}
+              <span className="font-mono text-xs font-normal text-ink-3">{servicesNav.href}</span>
+            </Link>
+          </li>
         </ul>
         <div className="shell space-y-5 pt-8 pb-[calc(env(safe-area-inset-bottom,0px)+2rem)]">
           <p className="flex items-center gap-2 text-sm break-all text-ink-2">
