@@ -43,6 +43,8 @@ export type Experience = {
   highlights: string[];
   tech: string[];
   photo?: Photo;
+  /** Path of a case study page for this role, if one exists. */
+  caseStudy?: string;
   log: LogEntry[];
 };
 
@@ -90,13 +92,13 @@ export const profile = {
   photo: { src: profilePhoto, alt: "Portrait of Minidu Perera" } satisfies Photo,
   highlights: [
     { value: "6 months", label: "on a live production banking system" },
-    { value: "~30%", label: "fewer rejected loan disbursements" },
+    { value: "~30%", label: "more loans processed a month (est.)" },
     { value: "3 teams led", label: "of 4, 5 and 8 people at SLIIT" },
   ] satisfies Highlight[],
   about: {
     paragraphs: [
       "I’m a software engineer finishing my BSc (Hons) in Information Technology at SLIIT, graduating in October 2026. I’m looking for a graduate, associate or junior software engineering role, backend by preference, in Sri Lanka or remote.",
-      "For six months at SysEnact Consulting I worked on a live core-banking system. I built the loan-disbursement solution that State Mortgage & Investment Bank’s loan officers use, working on-site with them to turn their requests into working features, and I handled the Linux side (SSH, file transfers, permissions and deployments) and set up Azure VMs and virtual networking. Disbursement rejections fell by about 30% after it went live.",
+      "For six months at SysEnact Consulting I worked on a live core-banking system. I built the loan-disbursement solution that State Mortgage & Investment Bank’s loan officers use, working on-site with them to turn their requests into working features, and I handled the Linux side: SSH, file transfers, permissions and deployments. It replaced their Excel-based process, and by my estimate about 30% more loans were completed each month.",
       "At university I’ve led teams of four to eight people through IoT, machine-learning and full-stack projects, and outside class I build systems I use every day.",
       "I also work with the newest AI tools, from Claude Code and agentic coding tools to integrating AI into existing systems, and they help me ramp up quickly on unfamiliar codebases.",
     ],
@@ -131,7 +133,7 @@ export const experience: Experience[] = [
     context: "Colombo · Temenos core-banking consultancy (Sri Lanka & Singapore)",
     period: "Nov 2024 – May 2025",
     highlights: [
-      "Built the loan-disbursement solution for SMIB (State Mortgage & Investment Bank) on Temenos T24: the loan officers’ screens and the business logic behind them. Disbursement rejections fell by about 30% after deployment.",
+      "Built the loan-disbursement solution for SMIB (State Mortgage & Investment Bank) on Temenos T24: the loan officers’ screens and the business logic behind them. It replaced their Excel-based process: an estimated ~30% more loans completed per month.",
       "Learned T24’s proprietary InfoBasic language and Java framework on the job, then wrote InfoBasic routines and Java logic on the backend, including Enquiry programs for secured data retrieval and Version programs for input and validation.",
       "Worked on-site at SMIB head office with the bank’s loan officers, turning their requests into working features.",
       "Fixed live production issues alongside business analysts, often the same day, and built the Cashback Loan Advice report.",
@@ -139,13 +141,14 @@ export const experience: Experience[] = [
     ],
     tech: ["Java", "InfoBasic", "Temenos T24", "Linux", "Azure", "Production support"],
     photo: { src: sysenactTeamPhoto, alt: "The SysEnact Consulting team" },
+    caseStudy: "/case-studies/smib-loan-disbursement",
     log: [
       { when: "2024-11", level: "INFO", source: "sysenact", message: "Joined the core-banking team (Temenos T24)" },
       { level: "INFO", source: "smib.onsite", message: "On-site at SMIB head office with the bank’s loan officers" },
       { level: "BUILD", source: "disbursement", message: "Loan-disbursement solution: the officers’ screens and the business logic behind them" },
       { level: "BUILD", source: "t24.backend", message: "Learned InfoBasic and T24’s Java framework on the job, then shipped Enquiry programs for secured retrieval, Version programs for input and validation" },
       { level: "DEPLOY", source: "production", message: "Loan-disbursement solution live for SMIB’s loan officers" },
-      { level: "METRIC", source: "rejections", message: "Disbursement rejections down ~30%, measured before and after deployment" },
+      { level: "METRIC", source: "loans", message: "Replaced the Excel-based process: an estimated ~30% more loans completed per month" },
       { level: "FIX", source: "prod.support", message: "Live production issues fixed with business analysts, often the same day" },
       { level: "BUILD", source: "reports", message: "Cashback Loan Advice report" },
       { level: "OPS", source: "linux", message: "SSH, SFTP, permissions and backend deployments for live banking services" },
@@ -409,3 +412,91 @@ export const services = {
     badge: "Free chat + free sample",
   },
 } as const;
+
+/** One section of a case study: an optional lead paragraph(s), then an optional bullet list. */
+export type CaseStudySection = {
+  heading: string;
+  paragraphs?: string[];
+  /** Each bullet can open with a bold lead-in. */
+  bullets?: { lead?: string; text: string }[];
+};
+
+export type CaseStudy = {
+  slug: string;
+  title: string;
+  /** The italic line under the title. */
+  meta: string;
+  /** Page title (the site template adds the name) and the meta description. */
+  seo: { title: string; description: string };
+  sections: CaseStudySection[];
+  tech: string[];
+};
+
+/** Case studies, written in the first person. Keep them to what the CV supports. */
+export const caseStudies: CaseStudy[] = [
+  {
+    slug: "smib-loan-disbursement",
+    title: "Moving SMIB’s loan disbursement from Excel to Temenos T24",
+    meta: "Case study · SysEnact Consulting · Nov 2024 – May 2025 · Developer intern, core banking",
+    seo: {
+      title: "Moving SMIB’s loan disbursement from Excel to Temenos T24",
+      description: "How I moved a bank’s loan pre-disbursement process from Excel into Temenos T24.",
+    },
+    sections: [
+      {
+        heading: "Context",
+        paragraphs: [
+          "SysEnact Consulting implements Temenos T24 core banking for banks in Sri Lanka and Singapore. I spent six months on State Mortgage & Investment Bank’s (SMIB) loan system, working on-site at SMIB head office with the bank’s four loan officers and SysEnact’s business analysts.",
+        ],
+      },
+      {
+        heading: "The problem",
+        paragraphs: [
+          "A loan at SMIB passes through many hands before the money goes out: credit, legal, risk and approval officers, then pre-disbursement and disbursement. Before the T24 solution, the loan officers ran this in Excel. They collected forms, notes and details from the other officers, typed them into spreadsheets, and kept their own logs to track where each loan stood. Every hand-off was manual. That meant re-keying data, chasing information between people and having no single record of a loan’s status. Throughput depended on how quickly people could pass spreadsheets and paperwork along.",
+        ],
+      },
+      {
+        heading: "What I built",
+        paragraphs: ["I replaced that manual stage with a pre-disbursement process inside T24:"],
+        bullets: [
+          {
+            lead: "Screens (T24 Versions)",
+            text: "for the pre-disbursement officer, with separate flows for mortgage and non-mortgage loans.",
+          },
+          {
+            lead: "Backend logic in Java on Temenos’s own packages.",
+            text: "It validates each input, updates the relevant data tables and manages the loan’s state. When a loan moves from one stage to the next, the logic changes and adds the right values. It also adds or clears remarks depending on the state, so a returned file carries the reason with it.",
+          },
+          {
+            lead: "Enquiries",
+            text: "that give each officer the loan information they need at their stage, limited to their access.",
+          },
+          {
+            text: "I maintained these Versions and Enquiries as the process changed. I also wrote the Cashback Loan Advice report.",
+          },
+        ],
+      },
+      {
+        heading: "How I worked",
+        paragraphs: [
+          "I sat with the loan officers, watched how they actually handled a file, and turned their requests into T24 logic, with the business analysts agreeing scope. After go-live I fixed live issues raised by users, often the same day.",
+        ],
+      },
+      {
+        heading: "Result",
+        paragraphs: [
+          "Loan officers now work from one system instead of spreadsheets and paper hand-offs. I estimate the bank completed about 30% more loans per month afterwards, comparing monthly approvals under the manual Excel process with monthly approvals after the T24 solution went live.",
+        ],
+      },
+      {
+        heading: "What I learned",
+        bullets: [
+          { text: "On a live banking server a mistake matters. The skill is reporting an error fast and learning from it." },
+          { text: "The quickest route to the right fix is the person who uses the system." },
+          { text: "Interns are an investment. Respecting people’s time is how you earn their teaching." },
+        ],
+      },
+    ],
+    tech: ["Temenos T24 (Versions, Enquiries)", "Java with Temenos packages", "InfoBasic", "Linux (SSH, SFTP, deployments)"],
+  },
+];
