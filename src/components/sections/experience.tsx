@@ -1,7 +1,10 @@
+import Link from "next/link";
+import { FiArrowRight } from "react-icons/fi";
 import { CareerLog } from "@/components/career-log";
 import { Reveal } from "@/components/fx/reveal";
 import { PhotoLightbox } from "@/components/photo-lightbox";
 import { Section } from "@/components/ui/section";
+import { textLink } from "@/components/ui/styles";
 import { TagList } from "@/components/ui/tag-list";
 import { experience, sectionCopy } from "@/content/profile";
 
@@ -21,6 +24,12 @@ export function ExperienceSection() {
             <p className="mt-2 font-semibold text-signal">{job.company}</p>
             <p className="mt-1 text-sm text-ink-3">{job.context}</p>
             <p className="mt-6 leading-relaxed text-ink-2">{job.highlights[0]}</p>
+            {job.caseStudy && (
+              <Link href={job.caseStudy} className={`${textLink} mt-4 min-h-11`}>
+                Read the case study
+                <FiArrowRight aria-hidden className="size-4" />
+              </Link>
+            )}
             <div className="mt-6">
               <TagList items={job.tech} label={`Technologies used at ${job.company}`} />
             </div>

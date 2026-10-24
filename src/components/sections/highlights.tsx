@@ -2,7 +2,7 @@ import { CountUp } from "@/components/fx/count-up";
 import { Reveal } from "@/components/fx/reveal";
 import { SpotlightGroup } from "@/components/fx/spotlight";
 import { TagList } from "@/components/ui/tag-list";
-import { experience } from "@/content/profile";
+import { experience, profile } from "@/content/profile";
 
 const tile = "spot surface flex flex-col p-6 sm:p-7";
 const label = "label-mono text-[0.62rem] text-ink-3";
@@ -38,14 +38,15 @@ function Timeline() {
   );
 }
 
-function Bar({ label: name, value, accent = false }: { label: string; value: number; accent?: boolean }) {
+/** `max` is the value that fills the track, so bars can pass 100. */
+function Bar({ label: name, value, max = 100, accent = false }: { label: string; value: number; max?: number; accent?: boolean }) {
   return (
     <div className="grid grid-cols-[3.5rem_1fr_2rem] items-center gap-3 font-mono text-[0.68rem] text-ink-3">
       <span>{name}</span>
       <span className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
         <span
           className={`block h-full rounded-full ${accent ? "bg-linear-to-r from-pulse to-signal" : "bg-white/25"}`}
-          style={{ width: `${value}%` }}
+          style={{ width: `${(value / max) * 100}%` }}
         />
       </span>
       <span className="text-right tabular-nums text-ink-2">{value}</span>
@@ -91,12 +92,12 @@ export function Highlights() {
             <p className={`${bigNumber} mt-6 text-5xl`}>
               <CountUp value={30} prefix="~" suffix="%" />
             </p>
-            <p className="mt-2 text-ink-2">fewer rejected loan disbursements</p>
+            <p className="mt-2 text-ink-2">{profile.highlights[1]!.label}</p>
             <div className="mt-6 space-y-2">
-              <Bar label="Before" value={100} />
-              <Bar label="After" value={70} accent />
+              <Bar label="Excel" value={100} max={130} />
+              <Bar label="T24" value={130} max={130} accent />
             </div>
-            <p className="mt-3 text-[0.7rem] text-ink-3">Rejections, indexed to 100 before deployment</p>
+            <p className="mt-3 text-[0.7rem] text-ink-3">Loans completed a month, indexed to 100 under the Excel process. My estimate.</p>
           </article>
 
           <article className={`${tile} lg:col-span-2`}>
