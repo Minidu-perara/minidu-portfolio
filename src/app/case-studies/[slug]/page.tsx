@@ -10,6 +10,9 @@ import { caseStudies, profile } from "@/content/profile";
 
 type Params = { slug: string };
 
+/** A heading as an element id: ids can't contain spaces, and aria-labelledby splits on them. */
+const headingId = (heading: string) => `cs-${heading.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+
 export const dynamicParams = false;
 
 export function generateStaticParams(): Params[] {
@@ -65,8 +68,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
 
             {study.sections.map((section) => (
               <Reveal key={section.heading} threshold={0.1} className="mt-12">
-                <section aria-labelledby={`cs-${section.heading}`}>
-                  <h2 id={`cs-${section.heading}`} className="text-2xl font-bold tracking-tight text-ink [font-variation-settings:'wdth'_104]">
+                <section aria-labelledby={headingId(section.heading)}>
+                  <h2 id={headingId(section.heading)} className="text-2xl font-bold tracking-tight text-ink [font-variation-settings:'wdth'_104]">
                     {section.heading}
                   </h2>
                   {section.paragraphs?.map((paragraph) => (
@@ -80,7 +83,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                         <li key={bullet.text} className="flex gap-3 text-lg leading-relaxed text-ink-2">
                           <span aria-hidden className="mt-[0.7em] size-1.5 shrink-0 rounded-full bg-signal" />
                           <span>
-                            {bullet.lead && <strong className="font-semibold text-ink">{bullet.lead} </strong>}
+                            {bullet.lead && <strong className="font-semibold text-ink">{bullet.lead}</strong>}
+                            {bullet.lead && " "}
                             {bullet.text}
                           </span>
                         </li>

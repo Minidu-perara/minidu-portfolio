@@ -38,22 +38,6 @@ function Timeline() {
   );
 }
 
-/** `max` is the value that fills the track, so bars can pass 100. */
-function Bar({ label: name, value, max = 100, accent = false }: { label: string; value: number; max?: number; accent?: boolean }) {
-  return (
-    <div className="grid grid-cols-[3.5rem_1fr_2rem] items-center gap-3 font-mono text-[0.68rem] text-ink-3">
-      <span>{name}</span>
-      <span className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
-        <span
-          className={`block h-full rounded-full ${accent ? "bg-linear-to-r from-pulse to-signal" : "bg-white/25"}`}
-          style={{ width: `${(value / max) * 100}%` }}
-        />
-      </span>
-      <span className="text-right tabular-nums text-ink-2">{value}</span>
-    </div>
-  );
-}
-
 function TeamDots({ size }: { size: number }) {
   return (
     <div>
@@ -93,11 +77,13 @@ export function Highlights() {
               <CountUp value={30} prefix="~" suffix="%" />
             </p>
             <p className="mt-2 text-ink-2">{profile.highlights[1]!.label}</p>
-            <div className="mt-6 space-y-2">
-              <Bar label="Excel" value={100} max={130} />
-              <Bar label="T24" value={130} max={130} accent />
+            {/* The change itself, not a chart: the figure is an estimate, so no bars. */}
+            <div aria-hidden className="mt-6 flex items-center gap-3 font-mono text-[0.68rem]">
+              <span className="rounded-full bg-white/[0.04] px-3 py-1 text-ink-3 ring-1 ring-white/10">Excel</span>
+              <span className="h-px flex-1 bg-linear-to-r from-white/15 to-signal" />
+              <span className="rounded-full bg-signal/12 px-3 py-1 text-signal ring-1 ring-signal/40">Temenos T24</span>
             </div>
-            <p className="mt-3 text-[0.7rem] text-ink-3">Loans completed a month, indexed to 100 under the Excel process. My estimate.</p>
+            <p className="mt-3 text-[0.7rem] text-ink-3">By my estimate, comparing monthly loan approvals before and after go-live.</p>
           </article>
 
           <article className={`${tile} lg:col-span-2`}>

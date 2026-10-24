@@ -98,7 +98,7 @@ export const profile = {
   about: {
     paragraphs: [
       "I’m a software engineer finishing my BSc (Hons) in Information Technology at SLIIT, graduating in October 2026. I’m looking for a graduate, associate or junior software engineering role, backend by preference, in Sri Lanka or remote.",
-      "For six months at SysEnact Consulting I worked on a live core-banking system. I built the loan-disbursement solution that State Mortgage & Investment Bank’s loan officers use, working on-site with them to turn their requests into working features, and I handled the Linux side: SSH, file transfers, permissions and deployments, and I set up Azure VMs and virtual networking. It replaced their Excel-based process, and by my estimate about 30% more loans were completed each month.",
+      "For six months at SysEnact Consulting I worked on a live core-banking system. I built the loan-disbursement solution that State Mortgage & Investment Bank’s loan officers use, working on-site with them to turn their requests into working features, and I handled the Linux side: SSH, file transfers, permissions and deployments. It replaced their Excel-based process, and by my estimate about 30% more loans were completed each month.",
       "At university I’ve led teams of four to eight people through IoT, machine-learning and full-stack projects, and outside class I build systems I use every day.",
       "I also work with the newest AI tools, from Claude Code and agentic coding tools to integrating AI into existing systems, and they help me ramp up quickly on unfamiliar codebases.",
     ],
