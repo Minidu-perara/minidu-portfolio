@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FiArrowLeft } from "react-icons/fi";
+import { PlayWhenVisible } from "@/components/fx/play-when-visible";
 import { Reveal } from "@/components/fx/reveal";
+import { ProjectSceneArt } from "@/components/project-scenes";
 import { Footer } from "@/components/sections/footer";
 import { TagList } from "@/components/ui/tag-list";
 import { textLink } from "@/components/ui/styles";
@@ -56,15 +58,21 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
       <main id="main" className="flex-1">
         <article className="shell pt-28 pb-20 sm:pt-36 sm:pb-28">
           <div className="mx-auto max-w-2xl">
-            <Link href="/#experience" className={`${textLink} text-sm`}>
+            <Link href={study.back.href} className={`${textLink} text-sm`}>
               <FiArrowLeft aria-hidden className="size-4" />
-              Back to experience
+              {study.back.label}
             </Link>
 
             <header className="mt-8">
               <h1 className="display-2 text-[clamp(2rem,6vw,3.4rem)]">{study.title}</h1>
               <p className="mt-5 text-ink-2 italic">{study.meta}</p>
             </header>
+
+            {study.scene && (
+              <PlayWhenVisible className="surface mt-10 aspect-[5/2] overflow-hidden bg-[radial-gradient(40rem_16rem_at_50%_0%,rgb(99_102_241/0.16),transparent_70%)] px-2">
+                <ProjectSceneArt scene={study.scene} />
+              </PlayWhenVisible>
+            )}
 
             {study.sections.map((section) => (
               <Reveal key={section.heading} threshold={0.1} className="mt-12">

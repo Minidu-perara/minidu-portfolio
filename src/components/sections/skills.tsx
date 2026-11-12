@@ -1,7 +1,6 @@
 import type { IconType } from "react-icons";
 import { FiCheckCircle, FiCloud, FiCode, FiCpu, FiCreditCard, FiServer, FiTerminal, FiZap } from "react-icons/fi";
 import { Reveal } from "@/components/fx/reveal";
-import { SpotlightGroup } from "@/components/fx/spotlight";
 import { Section } from "@/components/ui/section";
 import { TagList } from "@/components/ui/tag-list";
 import { sectionCopy, skills, type SkillGroup } from "@/content/profile";
@@ -48,26 +47,28 @@ export function SkillsSection() {
         <MarqueeRow items={rows[0]!} />
         <MarqueeRow items={rows[1]!} outlined />
       </div>
+      {/* An index, not a wall of cards: one row per area, read left to right. */}
       <Reveal threshold={0.1} className="mt-14">
-        <SpotlightGroup className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <ul className="border-t border-white/8">
           {skills.map((group, i) => {
             const Icon = icons[group.icon];
-            // Let the last card fill its row so the grid has no gap.
-            const isLast = i === skills.length - 1;
-            const span = `${isLast && skills.length % 2 === 1 ? "sm:col-span-2" : ""} ${isLast && skills.length % 4 === 3 ? "xl:col-span-2" : "xl:col-span-1"}`;
             return (
-              <article key={group.category} className={`spot surface flex flex-col gap-5 p-6 ${span}`}>
-                <div className="flex items-center gap-3">
-                  <span className="grid size-9 place-items-center rounded-xl bg-signal/10 text-signal ring-1 ring-signal/20">
-                    <Icon aria-hidden className="size-4" />
-                  </span>
-                  <h3 className="font-semibold text-ink">{group.category}</h3>
-                </div>
+              <li
+                key={group.category}
+                className="group grid gap-x-8 gap-y-4 border-b border-white/8 py-6 transition-colors duration-300 hover:bg-signal/[0.035] sm:grid-cols-[2.5rem_minmax(0,15rem)_minmax(0,1fr)] sm:items-center sm:px-3 sm:py-7"
+              >
+                <span aria-hidden className="label-mono hidden text-[0.62rem] text-ink-3 sm:block">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="flex items-center gap-3 text-xl font-bold tracking-tight text-ink transition-colors duration-300 group-hover:text-signal sm:text-2xl">
+                  <Icon aria-hidden className="size-5 shrink-0 text-signal" />
+                  {group.category}
+                </h3>
                 <TagList items={group.items} label={group.category} />
-              </article>
+              </li>
             );
           })}
-        </SpotlightGroup>
+        </ul>
       </Reveal>
     </Section>
   );

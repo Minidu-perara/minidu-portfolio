@@ -43,6 +43,7 @@
   --animate-pulse-ring: pulse-ring 2.4s var(--ease-out-expo) infinite;
   --animate-marquee: marquee 48s linear infinite;
   --animate-scroll-cue: scroll-cue 2s ease-in-out infinite;
+  --animate-page-in: page-in 0.6s var(--ease-out-expo) both;
 
   @keyframes fade-up {
     from {
@@ -54,6 +55,12 @@
       opacity: 1;
       transform: none;
       filter: none;
+    }
+  }
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
     }
   }
   @keyframes fade-in {

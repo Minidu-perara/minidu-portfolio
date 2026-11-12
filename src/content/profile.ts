@@ -59,6 +59,8 @@ export type Project = {
   summary: string;
   tech: string[];
   scene: ProjectScene;
+  /** Headline numbers for the featured card. Only figures the CV states. */
+  stats?: Highlight[];
   /** Only link a repo whose README explains what it does and how to run it. */
   links?: ProjectLinks;
 };
@@ -167,6 +169,11 @@ export const projects: Project[] = [
     summary:
       "A wearable for elderly care that tracks heart rate, motion, steps and falls. I built the scikit-learn models for anomaly and fall detection and the MQTT pipeline feeding a caregiver dashboard. Fall detection above 95% accuracy; manual monitoring work cut by about 60%.",
     tech: ["Python", "scikit-learn", "MQTT", "Arduino", "MERN"],
+    stats: [
+      { value: ">95%", label: "fall-detection accuracy" },
+      { value: "~60%", label: "less manual monitoring work" },
+    ],
+    links: { caseStudy: "/case-studies/iot-wearable-health-monitor" },
   },
   {
     title: "Fit Link",
@@ -175,6 +182,7 @@ export const projects: Project[] = [
     summary:
       "A social platform for sharing workouts and meal plans. I led the team and built the Spring Boot REST backend for posts and profiles, with secure login and privacy controls over health data.",
     tech: ["Java", "Spring Boot", "REST API", "MongoDB"],
+    links: { caseStudy: "/case-studies/fit-link" },
   },
   {
     title: "Edge-based Smart Waste Monitoring",
@@ -183,6 +191,7 @@ export const projects: Project[] = [
     summary:
       "A two-node IoT prototype (ESP32 and ESP8266) with an adaptive reporting policy: each bin changes how often it reports depending on its state, with a laptop acting as the edge gateway over MQTT and a live dashboard. Final presentation October 2026.",
     tech: ["ESP32", "ESP8266", "MQTT", "Edge computing", "IoT"],
+    links: { caseStudy: "/case-studies/edge-smart-waste-monitoring" },
   },
   {
     title: "Wedding Management System",
@@ -191,6 +200,7 @@ export const projects: Project[] = [
     summary:
       "A platform connecting couples with venues and vendors, with booking workflows, client dashboards and admin panels.",
     tech: ["MongoDB", "Express", "React", "Node.js"],
+    links: { caseStudy: "/case-studies/wedding-management-system" },
   },
 ];
 
@@ -430,12 +440,17 @@ export type CaseStudy = {
   seo: { title: string; description: string };
   sections: CaseStudySection[];
   tech: string[];
+  /** The animated diagram shown under the title, for project write-ups. */
+  scene?: ProjectScene;
+  /** Where "Back" goes: the home-page section this belongs to. */
+  back: { href: string; label: string };
 };
 
 /** Case studies, written in the first person. Keep them to what the CV supports. */
 export const caseStudies: CaseStudy[] = [
   {
     slug: "smib-loan-disbursement",
+    back: { href: "/#experience", label: "Back to experience" },
     title: "Moving SMIB’s loan disbursement from Excel to Temenos T24",
     meta: "Case study · SysEnact Consulting · Nov 2024 – May 2025 · Developer intern, core banking",
     seo: {
@@ -498,5 +513,104 @@ export const caseStudies: CaseStudy[] = [
       },
     ],
     tech: ["Temenos T24 (Versions, Enquiries)", "Java with Temenos packages", "InfoBasic", "Linux (SSH, SFTP, deployments)"],
+  },
+  // Project write-ups. Each restates only what the CV says about the project;
+  // add detail here as it becomes available.
+  {
+    slug: "iot-wearable-health-monitor",
+    back: { href: "/#projects", label: "Back to projects" },
+    scene: "ecg",
+    title: "IoT Wearable Health Monitor",
+    meta: "Project · SLIIT · Team lead of 5",
+    seo: {
+      title: "IoT Wearable Health Monitor",
+      description: "A wearable for elderly care that detects falls with over 95% accuracy, built by a team of five that I led.",
+    },
+    sections: [
+      {
+        heading: "What it is",
+        paragraphs: ["A wearable for elderly care that tracks heart rate, motion, steps and falls, and shows them to a caregiver on a dashboard."],
+      },
+      {
+        heading: "My part",
+        paragraphs: ["I led the team of five."],
+        bullets: [
+          { lead: "Detection models.", text: "I built the scikit-learn models for anomaly and fall detection." },
+          { lead: "Data pipeline.", text: "I built the MQTT pipeline that feeds the caregiver dashboard." },
+        ],
+      },
+      {
+        heading: "Result",
+        paragraphs: ["Fall detection reached over 95% accuracy, and the system cut manual monitoring work by about 60%."],
+      },
+    ],
+    tech: ["Python", "scikit-learn", "MQTT", "Arduino", "MERN"],
+  },
+  {
+    slug: "fit-link",
+    back: { href: "/#projects", label: "Back to projects" },
+    scene: "graph",
+    title: "Fit Link",
+    meta: "Project · SLIIT · Team lead of 4",
+    seo: {
+      title: "Fit Link",
+      description: "A social platform for sharing workouts and meal plans, with a Spring Boot REST backend I built while leading the team.",
+    },
+    sections: [
+      { heading: "What it is", paragraphs: ["A social platform for sharing workouts and meal plans."] },
+      {
+        heading: "My part",
+        paragraphs: [
+          "I led the team of four and built the Spring Boot REST backend for posts and profiles, with secure login and privacy controls over health data.",
+        ],
+      },
+    ],
+    tech: ["Java", "Spring Boot", "REST API", "MongoDB"],
+  },
+  {
+    slug: "edge-smart-waste-monitoring",
+    back: { href: "/#projects", label: "Back to projects" },
+    scene: "edge",
+    title: "Edge-based Smart Waste Monitoring",
+    meta: "Final-year research · SLIIT · Individual",
+    seo: {
+      title: "Edge-based Smart Waste Monitoring",
+      description: "My final-year research: a two-node IoT prototype where each bin decides how often to report, based on its state.",
+    },
+    sections: [
+      {
+        heading: "What it is",
+        paragraphs: ["My final-year research project: a two-node IoT prototype for monitoring waste bins, built on an ESP32 and an ESP8266."],
+      },
+      {
+        heading: "How it works",
+        bullets: [
+          { lead: "Adaptive reporting.", text: "Each bin changes how often it reports depending on its state." },
+          { lead: "Edge gateway.", text: "A laptop acts as the edge gateway over MQTT." },
+          { lead: "Live dashboard.", text: "Readings appear on a live dashboard." },
+        ],
+      },
+      { heading: "Status", paragraphs: ["Final presentation October 2026."] },
+    ],
+    tech: ["ESP32", "ESP8266", "MQTT", "Edge computing", "IoT"],
+  },
+  {
+    slug: "wedding-management-system",
+    back: { href: "/#projects", label: "Back to projects" },
+    scene: "calendar",
+    title: "Wedding Management System",
+    meta: "Project · SLIIT · Team lead of 8",
+    seo: {
+      title: "Wedding Management System",
+      description: "A platform connecting couples with venues and vendors, built by a team of eight that I led.",
+    },
+    sections: [
+      {
+        heading: "What it is",
+        paragraphs: ["A platform connecting couples with venues and vendors, with booking workflows, client dashboards and admin panels."],
+      },
+      { heading: "My part", paragraphs: ["I led the team of eight."] },
+    ],
+    tech: ["MongoDB", "Express", "React", "Node.js"],
   },
 ];
