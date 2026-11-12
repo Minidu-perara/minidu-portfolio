@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ContourBand } from "@/components/fx/contour-band";
 import { Footer } from "@/components/sections/footer";
 import { ServicesContact } from "@/components/services/contact";
 import { ServicesDemo } from "@/components/services/demo";
@@ -39,6 +40,7 @@ export default function ServicesPage() {
         <ServicesSteps />
         <ServicesDemo />
         <ServicesWhy />
+        <ContourBand tone="sun" />
         <ServicesFaq />
         <ServicesContact />
       </main>
