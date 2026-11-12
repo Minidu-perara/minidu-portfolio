@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FiArrowDown } from "react-icons/fi";
 import { NeuralField } from "@/components/fx/neural-field";
+import { SignalField } from "@/components/fx/signal-field";
 import { WhatsAppButton } from "@/components/services/whatsapp-button";
 import { profile, services } from "@/content/profile";
 
@@ -12,6 +13,7 @@ export function ServicesHero() {
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(70rem_42rem_at_85%_0%,#11163d,transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(40rem_26rem_at_0%_100%,rgb(251_191_36/0.07),transparent_70%)]" />
+        <SignalField tone="sun" className="absolute inset-0 size-full opacity-0 transition-opacity duration-[2.2s] data-[state=ready]:opacity-100" />
         <NeuralField tone="sun" className="absolute inset-0 size-full opacity-0 transition-opacity duration-[1.6s] data-[state=ready]:opacity-80 lg:data-[state=ready]:opacity-100" />
         {/* Keep the words calm: the network fades out behind the text column. */}
         <div className="absolute inset-0 bg-[radial-gradient(52rem_36rem_at_18%_62%,rgb(7_12_34/0.8),rgb(7_12_34/0.35)_55%,transparent_80%)]" />

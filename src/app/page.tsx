@@ -1,3 +1,4 @@
+import { ContourBand } from "@/components/fx/contour-band";
 import { About } from "@/components/sections/about";
 import { ContactSection } from "@/components/sections/contact";
 import { EducationSection } from "@/components/sections/education";
@@ -20,9 +21,11 @@ export default function HomePage() {
         <Highlights />
         <About />
         <ExperienceSection />
+        <ContourBand />
         <ProjectsSection />
         <SkillsSection />
         <EducationSection />
+        <ContourBand />
         <ContactSection />
       </main>
       <Footer />
