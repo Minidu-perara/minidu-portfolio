@@ -293,7 +293,7 @@ export const services = {
   },
   photo: {
     src: portraitPhoto,
-    alt: "Minidu Perera, smiling, in a white shirt against a plain wall",
+    alt: "Minidu Perera in a white shirt, looking to one side, outside an office building",
   } satisfies Photo,
   hero: {
     eyebrow: "Web, software & AI services",
