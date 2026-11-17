@@ -12,7 +12,6 @@ import { utcOffsetMinutes } from "@/lib/timezones";
 const { home } = profile;
 const offset = utcOffsetMinutes(home.timeZone);
 const utcLabel = `UTC${offset >= 0 ? "+" : "−"}${String(Math.floor(Math.abs(offset) / 60)).padStart(2, "0")}:${String(Math.abs(offset) % 60).padStart(2, "0")}`;
-const coordinates = `${home.lat.toFixed(4)}° N · ${home.lon.toFixed(4)}° E`;
 
 export function Hero() {
   return (
@@ -51,9 +50,10 @@ export function Hero() {
           />
 
           <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,36rem)_auto] lg:items-end lg:justify-between">
-            <p className="text-lg leading-relaxed text-ink-2 sm:text-xl motion-safe:animate-fade-up motion-safe:[animation-delay:900ms]">
-              {profile.pitch}
-            </p>
+            <div className="motion-safe:animate-fade-up motion-safe:[animation-delay:900ms]">
+              <p className="text-lg leading-relaxed text-ink-2 sm:text-xl">{profile.pitch}</p>
+              <p className="label-mono mt-4 text-[0.7rem] text-signal">{profile.stackLine}</p>
+            </div>
             <div className="flex flex-wrap gap-3 motion-safe:animate-fade-up motion-safe:[animation-delay:1050ms]">
               <Magnetic>
                 <a href={`mailto:${profile.email}`} className={buttonPrimary}>
@@ -73,7 +73,7 @@ export function Hero() {
         </div>
 
         <div className="label-mono flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-white/8 pt-5 text-[0.62rem] text-ink-3 motion-safe:animate-fade-in motion-safe:[animation-delay:1300ms]">
-          <span>{coordinates}</span>
+          <span>{profile.location}</span>
           <span>{utcLabel}</span>
           <span className="hidden sm:inline">{profile.status}</span>
           <a href="#about" className="group hidden items-center gap-3 text-ink-2 transition-colors hover:text-ink md:flex">

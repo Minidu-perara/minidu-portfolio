@@ -4,6 +4,9 @@ import { SpotlightGroup } from "@/components/fx/spotlight";
 import { TagList } from "@/components/ui/tag-list";
 import { experience, profile } from "@/content/profile";
 
+/** The internship: the role with a career log. */
+const internship = experience.find((job) => job.log)!;
+
 const tile = "spot surface flex flex-col p-6 sm:p-7";
 const label = "label-mono text-[0.62rem] text-ink-3";
 const bigNumber = "font-extrabold leading-none tracking-[-0.045em] [font-variation-settings:'wdth'_115]";
@@ -67,23 +70,22 @@ export function Highlights() {
                 </span>
                 <span className="text-2xl font-semibold text-ink-2">months</span>
               </p>
-              <p className="mt-3 max-w-[17rem] text-ink-2">on a live production banking system, on-site with the people who used it</p>
+              <p className="mt-3 max-w-[17rem] text-ink-2">on a live production system, on-site with the people who used it</p>
             </div>
           </article>
 
           <article className={`${tile} lg:col-span-2`}>
-            <p className={label}>After my solution went live</p>
+            <p className={label}>After my module went live</p>
             <p className={`${bigNumber} mt-6 text-5xl`}>
-              <CountUp value={30} prefix="~" suffix="%" />
+              <CountUp value={30} suffix="%" />
             </p>
             <p className="mt-2 text-ink-2">{profile.highlights[1]!.label}</p>
-            {/* The change itself, not a chart: the figure is an estimate, so no bars. */}
+            {/* The change itself: a manual spreadsheet process replaced by the module. */}
             <div aria-hidden className="mt-6 flex items-center gap-3 font-mono text-[0.68rem]">
               <span className="rounded-full bg-white/[0.04] px-3 py-1 text-ink-3 ring-1 ring-white/10">Excel</span>
               <span className="h-px flex-1 bg-linear-to-r from-white/15 to-signal" />
-              <span className="rounded-full bg-signal/12 px-3 py-1 text-signal ring-1 ring-signal/40">Temenos T24</span>
+              <span className="rounded-full bg-signal/12 px-3 py-1 text-signal ring-1 ring-signal/40">My module</span>
             </div>
-            <p className="mt-3 text-[0.7rem] text-ink-3">By my estimate, comparing monthly loan approvals before and after go-live.</p>
           </article>
 
           <article className={`${tile} lg:col-span-2`}>
@@ -105,13 +107,13 @@ export function Highlights() {
             <p className={label}>On the live system</p>
             <p className="mt-6 text-xl leading-snug font-semibold text-ink">The stack I shipped to production with</p>
             <div className="mt-auto pt-6">
-              <TagList items={experience[0]!.tech} label="Technologies used in production" />
+              <TagList items={internship.tech} label="Technologies used in production" />
             </div>
           </article>
 
           <article className={`${tile} lg:col-span-2`}>
             <p className={label}>Graduating</p>
-            <p className={`${bigNumber} mt-6 text-5xl`}>Oct 2026</p>
+            <p className={`${bigNumber} mt-6 text-5xl`}>Dec 2026</p>
             <p className="mt-auto pt-4 text-ink-2">BSc (Hons) IT, SLIIT · final semester</p>
           </article>
         </SpotlightGroup>

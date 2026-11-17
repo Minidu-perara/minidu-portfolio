@@ -1,5 +1,5 @@
 import type { IconType } from "react-icons";
-import { FiCheckCircle, FiCloud, FiCode, FiCpu, FiCreditCard, FiServer, FiTerminal, FiZap } from "react-icons/fi";
+import { FiCheckCircle, FiCloud, FiCode, FiCompass, FiCpu, FiCreditCard, FiServer, FiTerminal, FiZap } from "react-icons/fi";
 import { Reveal } from "@/components/fx/reveal";
 import { Section } from "@/components/ui/section";
 import { TagList } from "@/components/ui/tag-list";
@@ -14,6 +14,7 @@ const icons: Record<SkillGroup["icon"], IconType> = {
   check: FiCheckCircle,
   bank: FiCreditCard,
   cpu: FiCpu,
+  compass: FiCompass,
 };
 
 const allSkills = skills.flatMap((group) => group.items);
