@@ -31,6 +31,7 @@ const nextConfig: NextConfig = {
       { source: "/writing/:path*", destination: SUBSTACK_URL, permanent: false },
       { source: "/notes/:path*", destination: SUBSTACK_URL, permanent: false },
       { source: "/Master%20Resume%20Minidu.pdf", destination: "/resume.pdf", permanent: false },
+      { source: "/case-studies/smib-loan-disbursement", destination: "/case-studies/loan-disbursement", permanent: false },
     ];
   },
 };

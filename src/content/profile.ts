@@ -36,7 +36,8 @@ export type LogEntry = { when?: string; level: LogLevel; source: string; message
 
 export type Experience = {
   role: string;
-  company: string;
+  /** Omitted for freelance work, which has no single employer to name. */
+  company?: string;
   /** One line of context under the role, e.g. location and what the company does. */
   context: string;
   period: string;
@@ -45,7 +46,8 @@ export type Experience = {
   photo?: Photo;
   /** Path of a case study page for this role, if one exists. */
   caseStudy?: string;
-  log: LogEntry[];
+  /** The pinned role with a career log; other roles show as compact cards. */
+  log?: LogEntry[];
 };
 
 export type ProjectLinks = { repo?: string; demo?: string; caseStudy?: string };
@@ -53,12 +55,22 @@ export type ProjectLinks = { repo?: string; demo?: string; caseStudy?: string };
 /** Which animated diagram illustrates a project card. */
 export type ProjectScene = "ecg" | "graph" | "edge" | "calendar";
 
+/** What a project proves. The Projects section filters on these. */
+export const projectTags = ["AI", "Backend", "Cloud", "QA", "IoT"] as const;
+export type ProjectTag = (typeof projectTags)[number];
+
 export type Project = {
   title: string;
   role: string;
   summary: string;
   tech: string[];
-  scene: ProjectScene;
+  /** The animated diagram; projects without one show as text cards. */
+  scene?: ProjectScene;
+  tags: ProjectTag[];
+  /** A short status pill, e.g. "In progress". */
+  badge?: string;
+  /** Kept in the file but not shown on the site (e.g. a project on hold). */
+  hidden?: boolean;
   /** Headline numbers for the featured card. Only figures the CV states. */
   stats?: Highlight[];
   /** Only link a repo whose README explains what it does and how to run it. */
@@ -67,7 +79,7 @@ export type Project = {
 
 export type SkillGroup = {
   category: string;
-  icon: "code" | "server" | "terminal" | "cloud" | "ai" | "check" | "bank" | "cpu";
+  icon: "code" | "server" | "terminal" | "cloud" | "ai" | "check" | "bank" | "cpu" | "compass";
   items: string[];
 };
 
@@ -77,38 +89,35 @@ export const profile = {
   name: "Minidu Perera",
   /** How the name breaks across lines in the hero. */
   nameLines: ["Minidu", "Perera"],
-  role: "Software Engineer · Backend",
-  availability: "Open to SE roles",
-  pitch: "I build backend software that holds up in production, starting with six months on a live banking system.",
-  status: "Graduating Oct 2026 · open to SE roles",
+  role: "Software Engineer · AI systems",
+  availability: "Open to software, solutions and AI roles",
+  pitch: "Software engineer who ships AI-powered systems into production, working directly with the people who use them.",
+  /** The line under the hero pitch. */
+  stackLine: "Java · TypeScript · Python · AI agents · Cloud",
+  status: "Graduating Dec 2026 · open to software, solutions and AI roles",
   location: "Colombo, Sri Lanka · open to remote",
   home: { name: "Colombo", lat: 6.9271, lon: 79.8612, timeZone: "Asia/Colombo" } satisfies Place,
   email: "miniduthiranjayaiso@gmail.com",
   /** Canonical address of this site. */
   website: "https://miniduperera.tech",
   seo: {
-    title: "Minidu Perera · Software Engineer (Backend) · Sri Lanka",
+    title: "Minidu Perera · Software Engineer · AI systems · Sri Lanka",
     description:
-      "I build backend software that holds up in production, starting with six months on a live banking system.",
+      "Software engineer who ships AI-powered systems into production, working directly with the people who use them.",
   },
   photo: { src: profilePhoto, alt: "Portrait of Minidu Perera" } satisfies Photo,
   highlights: [
     { value: "6 months", label: "on a live production banking system" },
-    { value: "~30%", label: "more loans processed a month (est.)" },
+    { value: "30%", label: "faster loan workflow" },
     { value: "3 teams led", label: "of 4, 5 and 8 people at SLIIT" },
   ] satisfies Highlight[],
   about: {
     paragraphs: [
-      "I’m a software engineer finishing my BSc (Hons) in Information Technology at SLIIT, graduating in October 2026. I’m looking for a graduate, associate or junior software engineering role, backend by preference, in Sri Lanka or remote.",
-      "For six months at SysEnact Consulting I worked on a live core-banking system. I built the loan-disbursement solution that State Mortgage & Investment Bank’s loan officers use, working on-site with them to turn their requests into working features, and I handled the Linux side: SSH, file transfers, permissions and deployments. It replaced their Excel-based process, and by my estimate about 30% more loans were completed each month.",
-      "At university I’ve led teams of four to eight people through IoT, machine-learning and full-stack projects, and outside class I build systems I use every day.",
-      "I also work with the newest AI tools, from Claude Code and agentic coding tools to integrating AI into existing systems, and they help me ramp up quickly on unfamiliar codebases.",
-    ],
-    principlesLead: "That work taught me a few things I now build by:",
-    principles: [
-      "A mistake on a live server matters.",
-      "The quickest route to the right fix is talking to the person who uses the system.",
-      "Reporting an error fast beats hiding it.",
+      "Software engineer who ships AI-powered systems into production, working directly with the people who use them.",
+      "At SysEnact Consulting I spent six months on-site with a client’s operations team, turning their requests into backend logic in Java on a live production system. My module replaced an Excel process and made their loan workflow 30% faster. I deployed on Linux servers and fixed production issues as they came up, often the same day.",
+      "Since then I’ve built Life OS, my own AI-powered planning system: a Node.js/TypeScript service where Claude agents read and update live data through a validated API, covered by over 340 automated tests. I use it every day. I also take freelance web work, most recently fixing a failing Shopify integration for a local retailer.",
+      "I work across Java, TypeScript and Python, build AI agent systems on Claude, and have set up cloud infrastructure on Azure.",
+      "I finish my BSc (Hons) in IT at SLIIT in December 2026 and I’m looking for software engineering, solutions and AI roles, in Sri Lanka or remote.",
     ],
   },
   resume: {
@@ -116,8 +125,8 @@ export const profile = {
     downloadName: "Minidu-Perera-Software-Engineer-CV.pdf",
   },
   contact: {
-    heading: "Hiring a graduate or junior engineer?",
-    text: "I’m open to graduate, associate and junior software engineering roles in Sri Lanka or remote. Email me and I’ll send my CV or set up a call.",
+    heading: "Hiring a software, solutions or AI engineer?",
+    text: "I’m open to graduate, associate and junior roles in Sri Lanka or remote, full time from December 2026. Email me and I’ll send my CV or set up a call.",
   },
   githubHref: "https://github.com/Minidu-perara",
   substackHref: "https://minidu.substack.com/",
@@ -130,98 +139,153 @@ export const profile = {
 
 export const experience: Experience[] = [
   {
-    role: "Software Engineer Intern, Core Banking",
+    role: "Freelance Software Engineer",
+    context: "Sri Lanka · Remote",
+    period: "Mar 2026 – present",
+    highlights: [
+      "Fixed a failing Shopify integration and updated the WordPress UI for a PC retailer.",
+      "QA-tested a mobile carrier-billing flow for an Upwork client, with recorded bug reports.",
+    ],
+    tech: [],
+  },
+  {
+    role: "Software Engineer Intern",
     company: "SysEnact Consulting",
-    context: "Colombo · Temenos core-banking consultancy (Sri Lanka & Singapore)",
+    context: "Colombo · Enterprise software consultancy (Sri Lanka & Singapore)",
     period: "Nov 2024 – May 2025",
     highlights: [
-      "Built the loan-disbursement solution for SMIB (State Mortgage & Investment Bank) on Temenos T24: the loan officers’ screens and the business logic behind them. It replaced their Excel-based process: an estimated ~30% more loans completed per month.",
-      "Learned T24’s proprietary InfoBasic language and Java framework on the job, then wrote InfoBasic routines and Java logic on the backend, including Enquiry programs for secured data retrieval and Version programs for input and validation.",
-      "Worked on-site at SMIB head office with the bank’s loan officers, turning their requests into working features.",
-      "Fixed live production issues alongside business analysts, often the same day, and built the Cashback Loan Advice report.",
-      "Ran Linux server operations for live banking services (SSH, SFTP, permissions, deployments) and set up Azure VMs and virtual networking. Also worked on DFCC Bank tasks.",
+      "Built a loan-disbursement module end to end on the client’s live production system: the user screens, input validation and the business logic behind them, replacing a manual spreadsheet process and making the loan workflow 30% faster.",
+      "Wrote backend logic in Java and InfoBasic on the Temenos T24 platform, learned on the job: read services that return only the data a user’s access allows, and input routines that validate records before saving.",
+      "Handled Linux server operations (SSH, SFTP, permissions, backend deployments) and set up Azure virtual machines and virtual networking.",
+      "Debugged and fixed live production issues with business analysts, often the same day, and built a reporting module.",
+      "Worked on-site with the client’s end users, turning their requests into working features.",
     ],
     tech: ["Java", "InfoBasic", "Temenos T24", "Linux", "Azure", "Production support"],
     photo: { src: sysenactTeamPhoto, alt: "The SysEnact Consulting team" },
-    caseStudy: "/case-studies/smib-loan-disbursement",
+    caseStudy: "/case-studies/loan-disbursement",
     log: [
-      { when: "2024-11", level: "INFO", source: "sysenact", message: "Joined the core-banking team (Temenos T24)" },
-      { level: "INFO", source: "smib.onsite", message: "On-site at SMIB head office with the bank’s loan officers" },
-      { level: "BUILD", source: "disbursement", message: "Loan-disbursement solution: the officers’ screens and the business logic behind them" },
-      { level: "BUILD", source: "t24.backend", message: "Learned InfoBasic and T24’s Java framework on the job, then shipped Enquiry programs for secured retrieval, Version programs for input and validation" },
-      { level: "DEPLOY", source: "production", message: "Loan-disbursement solution live for SMIB’s loan officers" },
-      { level: "METRIC", source: "loans", message: "Replaced the Excel-based process: an estimated ~30% more loans completed per month" },
+      { when: "2024-11", level: "INFO", source: "sysenact", message: "Joined SysEnact Consulting as a software engineer intern" },
+      { level: "INFO", source: "client.onsite", message: "On-site with the client’s end users, turning their requests into working features" },
+      { level: "BUILD", source: "disbursement", message: "Loan-disbursement module: the user screens, input validation and the business logic behind them" },
+      { level: "BUILD", source: "t24.backend", message: "Java and InfoBasic on Temenos T24, learned on the job: read services and input routines" },
+      { level: "DEPLOY", source: "production", message: "Loan-disbursement module live on the client’s production system" },
+      { level: "METRIC", source: "workflow", message: "Replaced a manual spreadsheet process: loan workflow 30% faster" },
       { level: "FIX", source: "prod.support", message: "Live production issues fixed with business analysts, often the same day" },
-      { level: "BUILD", source: "reports", message: "Cashback Loan Advice report" },
-      { level: "OPS", source: "linux", message: "SSH, SFTP, permissions and backend deployments for live banking services" },
-      { level: "OPS", source: "azure", message: "Set up Azure VMs and virtual networking" },
-      { level: "INFO", source: "dfcc", message: "Also worked on DFCC Bank tasks" },
-      { when: "2025-05", level: "INFO", source: "sysenact", message: "Internship complete: six months on a live banking system" },
+      { level: "BUILD", source: "reports", message: "Reporting module" },
+      { level: "OPS", source: "linux", message: "SSH, SFTP, permissions and backend deployments" },
+      { level: "OPS", source: "azure", message: "Set up Azure virtual machines and virtual networking" },
+      { when: "2025-05", level: "INFO", source: "sysenact", message: "Internship complete: six months on a live production system" },
     ],
   },
 ];
 
 export const projects: Project[] = [
   {
+    // On hold: shown once there is a repo and gate results to point to.
+    // TODO(Minidu): repo, demo video, gate results.
+    hidden: true,
+    title: "GuardedBin: a guarded AI agent on IoT telemetry",
+    role: "In progress",
+    badge: "In progress",
+    tags: ["AI", "IoT", "QA"],
+    summary:
+      "An AI agent system I’m designing and building: it manages smart waste bins from live sensor telemetry, and every action the agent proposes must pass a deterministic verification gate before it is applied. The agent can suggest; only the gate can commit.",
+    tech: ["TypeScript", "Node.js", "MQTT", "SQLite", "Next.js", "Claude (Anthropic API)"],
+  },
+  {
+    // TODO(Minidu): demo video (add links.demo when there is one).
+    title: "Life OS: AI-powered planning system",
+    role: "Personal project · 2026 – present, in daily use",
+    tags: ["AI", "Backend", "QA"],
+    summary:
+      "Designed and built a Node.js/TypeScript service on SQLite with a web app and a WhatsApp bot I built. Claude agents read its exported context and write structured updates through a validated API, with receipts and undo. Over 340 automated tests.",
+    tech: ["TypeScript", "Node.js", "SQLite", "WhatsApp bot", "Claude agents"],
+    stats: [
+      { value: "340+", label: "automated tests" },
+      { value: "Daily", label: "in use since 2026" },
+    ],
+  },
+  {
+    title: "Loan-disbursement module (SysEnact case study)",
+    role: "SysEnact Consulting · Nov 2024 – May 2025",
+    tags: ["Backend", "Cloud"],
+    summary:
+      "Built a loan-disbursement module end to end on the client’s live production system: the user screens, input validation and the business logic behind them, replacing a manual spreadsheet process and making the loan workflow 30% faster.",
+    tech: ["Java", "InfoBasic", "Temenos T24", "Linux", "Azure"],
+    links: { caseStudy: "/case-studies/loan-disbursement" },
+  },
+  {
     title: "IoT Wearable Health Monitor",
     scene: "ecg",
     role: "Team lead · 5 people",
+    tags: ["IoT", "AI"],
     summary:
-      "A wearable for elderly care that tracks heart rate, motion, steps and falls. I built the scikit-learn models for anomaly and fall detection and the MQTT pipeline feeding a caregiver dashboard. Fall detection above 95% accuracy; manual monitoring work cut by about 60%.",
+      "Wearable for elderly care tracking heart rate, motion, steps and falls. Built the scikit-learn models for anomaly and fall detection and the MQTT pipeline feeding a caregiver dashboard. Over 95% fall-detection accuracy; cut manual monitoring work by about 60%.",
     tech: ["Python", "scikit-learn", "MQTT", "Arduino", "MERN"],
-    stats: [
-      { value: ">95%", label: "fall-detection accuracy" },
-      { value: "~60%", label: "less manual monitoring work" },
-    ],
     links: { caseStudy: "/case-studies/iot-wearable-health-monitor" },
+  },
+  {
+    title: "Edge-based Smart Waste Monitoring",
+    scene: "edge",
+    role: "SLIIT final-year research",
+    tags: ["IoT"],
+    summary:
+      "Two-node IoT prototype (ESP32 and ESP8266) with an adaptive reporting policy: each bin changes how often it reports based on its state, with a laptop as the edge gateway over MQTT and a live dashboard. Research paper in progress.",
+    tech: ["ESP32", "ESP8266", "MQTT", "Edge computing"],
+    links: { caseStudy: "/case-studies/edge-smart-waste-monitoring" },
   },
   {
     title: "Fit Link",
     scene: "graph",
     role: "Team lead · 4 people",
+    tags: ["Backend"],
     summary:
-      "A social platform for sharing workouts and meal plans. I led the team and built the Spring Boot REST backend for posts and profiles, with secure login and privacy controls over health data.",
+      "Social platform for sharing workouts and meal plans. Led the team and built the Spring Boot REST backend for posts and profiles, with secure login and privacy controls over health data.",
     tech: ["Java", "Spring Boot", "REST API", "MongoDB"],
     links: { caseStudy: "/case-studies/fit-link" },
-  },
-  {
-    title: "Edge-based Smart Waste Monitoring",
-    scene: "edge",
-    role: "Final-year research · solo",
-    summary:
-      "A two-node IoT prototype (ESP32 and ESP8266) with an adaptive reporting policy: each bin changes how often it reports depending on its state, with a laptop acting as the edge gateway over MQTT and a live dashboard. Final presentation October 2026.",
-    tech: ["ESP32", "ESP8266", "MQTT", "Edge computing", "IoT"],
-    links: { caseStudy: "/case-studies/edge-smart-waste-monitoring" },
   },
   {
     title: "Wedding Management System",
     scene: "calendar",
     role: "Team lead · 8 people",
+    tags: ["Backend"],
     summary:
-      "A platform connecting couples with venues and vendors, with booking workflows, client dashboards and admin panels.",
+      "Led an eight-person team building a platform connecting couples with venues and vendors, with CRUD dashboards and admin panels.",
     tech: ["MongoDB", "Express", "React", "Node.js"],
     links: { caseStudy: "/case-studies/wedding-management-system" },
   },
 ];
 
 export const skills: SkillGroup[] = [
-  { category: "Languages", icon: "code", items: ["Java", "JavaScript / TypeScript", "Python", "SQL", "C++"] },
-  { category: "Backend & web", icon: "server", items: ["Spring Boot", "Node.js / Express", "REST APIs", "React", "Next.js", "MongoDB"] },
-  { category: "Cloud & ops", icon: "cloud", items: ["Microsoft Azure", "Virtual networks", "VM setup", "Linux", "SSH / SFTP", "Deployments", "Git", "Production debugging"] },
-  { category: "AI-assisted dev", icon: "ai", items: ["Claude Code", "Agentic coding tools", "AI integration into existing systems", "Ramping up on unfamiliar codebases"] },
-  { category: "Testing", icon: "check", items: ["Unit & integration testing", "Cypress", "Selenium"] },
+  { category: "AI agents & systems", icon: "ai", items: ["Built Claude agent systems", "Claude Code", "OpenAI Codex", "Agent harnesses", "Prompting"] },
+  { category: "Languages", icon: "code", items: ["Java", "SQL", "JavaScript / TypeScript", "Python", "InfoBasic", "C++"] },
+  {
+    category: "Backend & web",
+    icon: "server",
+    items: ["Spring Boot", "REST APIs", "Node.js / Express", "React", "Next.js", "MongoDB", "SQLite", "WordPress"],
+  },
+  {
+    category: "Linux & cloud",
+    icon: "cloud",
+    items: ["Linux", "SSH / SFTP", "Permissions", "Backend deployments", "Microsoft Azure (VMs, virtual networking)", "Git"],
+  },
+  {
+    category: "Testing & debugging",
+    icon: "check",
+    items: ["Automated testing (340+ tests on Life OS)", "Unit & integration testing", "Cypress", "Selenium", "Production debugging"],
+  },
   { category: "Core banking", icon: "bank", items: ["Temenos T24", "InfoBasic", "Enquiry & Version programming"] },
   { category: "IoT & ML", icon: "cpu", items: ["ESP32 / ESP8266", "Arduino", "MQTT", "scikit-learn", "TensorFlow", "pandas"] },
+  { category: "Familiar with", icon: "compass", items: ["AWS ECS (networking, load balancing)", "AWS SQS", "LLM deployment"] },
 ];
 
 export const education: Education = {
   degree: "BSc (Hons) in Information Technology",
   institution: "Sri Lanka Institute of Information Technology (SLIIT), Malabe",
-  period: "Aug 2021 – Oct 2026 (expected)",
-  start: "2021-08-01",
-  end: "2026-10-31",
-  summary:
-    "Final semester. Final-year research on edge-based, energy-aware IoT waste monitoring. Coursework in software engineering, system design, quality assurance and cloud technologies.",
+  period: "Nov 2022 – Dec 2026 (expected)",
+  start: "2022-11-01",
+  end: "2026-12-31",
+  summary: "Final-year research on edge-based IoT waste monitoring.",
 };
 
 /** Cities shown on the contact globe, with working-day overlap from Colombo. */
@@ -239,13 +303,13 @@ export const sectionCopy = {
   about: { eyebrow: "about", title: "A final-year student who has already worked in production." },
   experience: {
     eyebrow: "experience",
-    title: "Six months on a live banking system.",
+    title: "Six months on a live production system.",
     intro: "The internship as a log: one line for each thing I built, shipped or fixed.",
   },
-  projects: { eyebrow: "projects", title: "Three teams led, one solo research build." },
+  projects: { eyebrow: "projects", title: "Projects, tagged by what they prove." },
   skills: { eyebrow: "stack", title: "Tools I use, from production to prototypes." },
-  education: { eyebrow: "education", title: "BSc (Hons) IT at SLIIT, graduating October 2026." },
-  contact: { eyebrow: "contact", title: "Hiring a graduate or junior engineer?" },
+  education: { eyebrow: "education", title: "BSc (Hons) IT at SLIIT, graduating December 2026." },
+  contact: { eyebrow: "contact", title: "Hiring a software, solutions or AI engineer?" },
 } as const;
 
 /** Sections in the main navigation, in page order. */
@@ -385,7 +449,7 @@ export const services = {
     title: "Who you’ll be working with.",
     facts: [
       "BSc (Hons) Information Technology, SLIIT",
-      "Built the loan-disbursement solution for a live bank (SMIB) during my internship at SysEnact",
+      "Built the loan-disbursement solution for a live bank during my internship at SysEnact",
       "React · Next.js · Node.js · MongoDB",
     ],
   },
@@ -449,25 +513,25 @@ export type CaseStudy = {
 /** Case studies, written in the first person. Keep them to what the CV supports. */
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "smib-loan-disbursement",
+    slug: "loan-disbursement",
     back: { href: "/#experience", label: "Back to experience" },
-    title: "Moving SMIB’s loan disbursement from Excel to Temenos T24",
+    title: "Moving a bank’s loan disbursement from Excel to Temenos T24",
     meta: "Case study · SysEnact Consulting · Nov 2024 – May 2025 · Developer intern, core banking",
     seo: {
-      title: "Moving SMIB’s loan disbursement from Excel to Temenos T24",
+      title: "Moving a bank’s loan disbursement from Excel to Temenos T24",
       description: "How I moved a bank’s loan pre-disbursement process from Excel into Temenos T24.",
     },
     sections: [
       {
         heading: "Context",
         paragraphs: [
-          "SysEnact Consulting implements Temenos T24 core banking for banks in Sri Lanka and Singapore. I spent six months on State Mortgage & Investment Bank’s (SMIB) loan system, working on-site at SMIB head office with the bank’s four loan officers and SysEnact’s business analysts.",
+          "SysEnact Consulting implements Temenos T24 core banking for banks in Sri Lanka and Singapore. I spent six months on a client bank’s loan system, working on-site at the bank’s head office with its four loan officers and SysEnact’s business analysts.",
         ],
       },
       {
         heading: "The problem",
         paragraphs: [
-          "A loan at SMIB passes through many hands before the money goes out: credit, legal, risk and approval officers, then pre-disbursement and disbursement. Before the T24 solution, the loan officers ran this in Excel. They collected forms, notes and details from the other officers, typed them into spreadsheets, and kept their own logs to track where each loan stood. Every hand-off was manual. That meant re-keying data, chasing information between people and having no single record of a loan’s status. Throughput depended on how quickly people could pass spreadsheets and paperwork along.",
+          "A loan at the bank passes through many hands before the money goes out: credit, legal, risk and approval officers, then pre-disbursement and disbursement. Before the T24 solution, the loan officers ran this in Excel. They collected forms, notes and details from the other officers, typed them into spreadsheets, and kept their own logs to track where each loan stood. Every hand-off was manual. That meant re-keying data, chasing information between people and having no single record of a loan’s status. Throughput depended on how quickly people could pass spreadsheets and paperwork along.",
         ],
       },
       {
@@ -487,7 +551,7 @@ export const caseStudies: CaseStudy[] = [
             text: "that give each officer the loan information they need at their stage, limited to their access.",
           },
           {
-            text: "I maintained these Versions and Enquiries as the process changed. I also wrote the Cashback Loan Advice report.",
+            text: "I maintained these Versions and Enquiries as the process changed. I also wrote a reporting module.",
           },
         ],
       },
@@ -500,7 +564,7 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Result",
         paragraphs: [
-          "Loan officers now work from one system instead of spreadsheets and paper hand-offs. I estimate the bank completed about 30% more loans per month afterwards, comparing monthly approvals under the manual Excel process with monthly approvals after the T24 solution went live.",
+          "Loan officers now work from one system instead of spreadsheets and paper hand-offs. The module made the loan workflow 30% faster.",
         ],
       },
       {
@@ -590,7 +654,7 @@ export const caseStudies: CaseStudy[] = [
           { lead: "Live dashboard.", text: "Readings appear on a live dashboard." },
         ],
       },
-      { heading: "Status", paragraphs: ["Final presentation October 2026."] },
+      { heading: "Status", paragraphs: ["Research paper in progress."] },
     ],
     tech: ["ESP32", "ESP8266", "MQTT", "Edge computing", "IoT"],
   },
@@ -607,9 +671,9 @@ export const caseStudies: CaseStudy[] = [
     sections: [
       {
         heading: "What it is",
-        paragraphs: ["A platform connecting couples with venues and vendors, with booking workflows, client dashboards and admin panels."],
+        paragraphs: ["A platform connecting couples with venues and vendors, with CRUD dashboards and admin panels."],
       },
-      { heading: "My part", paragraphs: ["I led the team of eight."] },
+      { heading: "My part", paragraphs: ["I led the eight-person team."] },
     ],
     tech: ["MongoDB", "Express", "React", "Node.js"],
   },

@@ -144,7 +144,7 @@ export function HoloBadge({ photo, photoAlt, name, role, fields, serial }: Props
               </span>
               <span className="label-mono text-[0.6rem] text-ink-2">Engineer ID</span>
             </span>
-            <span className="label-mono text-[0.6rem] text-signal">Backend</span>
+            <span className="label-mono text-[0.6rem] text-signal">AI systems</span>
           </div>
 
           <div className="relative mt-4 overflow-hidden rounded-2xl ring-1 ring-white/12">
